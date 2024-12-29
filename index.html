@@ -4,55 +4,81 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Communitrics Counting</title>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+
     <link rel="icon" href="./image.png" type="image/png" />
+
     <script src="https://code.highcharts.com/12.0.2/highcharts.js"></script>
     <script src="https://code.highcharts.com/12.0.2/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/12.0.2/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/12.0.2/modules/accessibility.js"></script>
     <script src="https://code.highcharts.com/12.0.2/modules/xrange.js"></script>
-    <script src="https://code.highcharts.com/12.0.2/modules/exporting.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
     <style>
       :root {
-        --bg-color: #f0f2f5;
-        --card-bg: #ffffff;
-        --text-color: #333333;
-        --text-muted: #6c757d;
-        --accent-color: #5865f2;
-        --border-color: #e0e0e0;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --accent-color: #ed4c67;
+        --accent-hover: #db284f;
+
+        --body-gradient-start: #ffffff;
+        --body-gradient-end: #f9fafb;
+        --card-bg: rgba(255, 255, 255, 0.55);
+        --text-color: #1f1f1f;
+        --text-muted: #6b7280;
+        --border-color: rgba(255, 255, 255, 0.4);
+
+        --glass-blur: blur(16px);
+        --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
+
+        --heading-font-weight: 600;
+        --body-font-weight: 400;
+
+        --transition-speed: 0.3s;
       }
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg-color: #1e1e1e;
-          --card-bg: #2c2c2c;
-          --text-color: #e0e0e0;
-          --text-muted: #a0a0a0;
-          --border-color: #4a4a4a;
+          --body-gradient-start: #1f1f1f;
+          --body-gradient-end: #2b2b2b;
+          --card-bg: rgba(44, 44, 44, 0.6);
+          --text-color: #e5e5e5;
+          --text-muted: #a3a3a3;
+          --border-color: rgba(255, 255, 255, 0.1);
+          --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
         }
       }
 
-      * {
+      *,
+      *::before,
+      *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
+      html {
+        scroll-behavior: smooth;
+      }
       body {
         font-family: "Poppins", sans-serif;
-        background-color: var(--bg-color);
         color: var(--text-color);
-        line-height: 1.6;
+        line-height: 1.5;
+        background: linear-gradient(
+          120deg,
+          var(--body-gradient-start) 0%,
+          var(--body-gradient-end) 100%
+        );
+        min-height: 100vh;
       }
 
       .container {
+        width: 95%;
         max-width: 1400px;
         margin: 0 auto;
         padding: 20px;
@@ -62,181 +88,182 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px 0;
-        border-bottom: 1px solid var(--border-color);
-        margin-bottom: 30px;
+        margin-bottom: 20px;
       }
-
       .server-info {
         display: flex;
         align-items: center;
         gap: 15px;
       }
-
       .server-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+        object-fit: cover;
+      }
+      .server-info h1 {
+        font-weight: var(--heading-font-weight);
+        font-size: 1.8rem;
       }
 
-      h1,
-      h2,
-      h3 {
-        font-weight: 600;
+      #exportCsvBtn {
+        background: var(--accent-color);
+        color: #fff;
+        font-weight: var(--heading-font-weight);
+        font-size: 0.95rem;
+        border: none;
+        outline: none;
+        border-radius: 12px;
+        padding: 12px 26px;
+        box-shadow: var(--card-shadow);
+        cursor: pointer;
+        transition: background-color var(--transition-speed),
+          transform var(--transition-speed), box-shadow var(--transition-speed);
+      }
+      #exportCsvBtn:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+      }
+      #exportCsvBtn:active {
+        transform: scale(0.96);
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 30px;
+      }
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 12px 0;
+        background-color: var(--card-bg);
+        backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--border-color);
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: var(--heading-font-weight);
+        transition: all var(--transition-speed);
+        box-shadow: var(--card-shadow);
+      }
+      .tab.active {
+        background: var(--accent-color);
+        color: #fff;
+        border-color: transparent;
+        transform: translateY(-2px);
+      }
+      .tab:hover {
+        transform: translateY(-2px);
+      }
+
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
       }
 
       .card {
         background-color: var(--card-bg);
-        border-radius: 10px;
+        backdrop-filter: var(--glass-blur);
+        border-radius: 16px;
         padding: 20px;
-        box-shadow: var(--shadow);
+        box-shadow: var(--card-shadow);
         margin-bottom: 20px;
-        transition: transform 0.3s ease;
+        transition: transform var(--transition-speed);
       }
-
+      .card:hover {
+        transform: translateY(-4px);
+      }
       .card-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 15px;
       }
-
       .card-title {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+        font-weight: var(--heading-font-weight);
       }
 
-      .leaderboard {
-        list-style-type: none;
-      }
-
-      .leaderboard-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid var(--border-color);
-      }
-
-      .leaderboard-item:last-child {
-        border-bottom: none;
-      }
-
-      .leaderboard-rank {
-        font-weight: 600;
-        margin-right: 15px;
-        color: var(--accent-color);
-      }
-
-      .leaderboard-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 15px;
-      }
-
-      .leaderboard-info {
-        flex-grow: 1;
-      }
-
-      .leaderboard-name {
-        font-weight: 600;
-      }
-
-      .leaderboard-username {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-      }
-
-      .leaderboard-score {
-        font-weight: 600;
-        color: var(--accent-color);
-      }
-
-      .tabs {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
-
-      .tab {
-        padding: 10px 20px;
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-color);
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      .tab:first-child {
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-      }
-
-      .tab:last-child {
-        border-top-right-radius: 15px;
-        border-bottom-right-radius: 15px;
-      }
-
-      .highcharts-reset-zoom {
-        display: none !important;
-      }
-
-      .tab.active {
-        background-color: var(--accent-color);
-        color: white;
+      .chart-container {
+        width: 100%;
+        min-height: 300px;
       }
 
       .reset-zoom-btn {
         display: none;
         position: relative;
-        float: right;
         background-color: var(--accent-color);
-        color: white;
-        border: 2px solid var(--text-color);
+        color: #fff;
+        border: none;
         border-radius: 8px;
-        padding: 10px 15px;
-        font-size: 12px;
-        font-weight: bolder;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+        font-weight: var(--heading-font-weight);
         cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease, color 0.3s ease;
-        top: 5px;
+        box-shadow: var(--card-shadow);
+        transition: background var(--transition-speed),
+          transform var(--transition-speed), box-shadow var(--transition-speed);
       }
-
       .reset-zoom-btn:hover {
-        background-color: var(--text-color);
-        color: var(--card-bg);
+        background-color: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      }
+      .reset-zoom-btn:active {
+        transform: scale(0.96);
+      }
+      .highcharts-reset-zoom {
+        display: none !important;
       }
 
-      .export-csv-btn {
-        background-color: var(--accent-color);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: 600;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      .leaderboard {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
       }
 
-      .export-csv-btn:hover {
+      .leaderboard-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .leaderboard-item:last-child {
+        border-bottom: none;
+      }
+      .leaderboard-rank {
+        font-weight: var(--heading-font-weight);
         color: var(--accent-color);
-        background-color: #1e1e1e;
-        border: var(--accent-color) solid 2px;
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        font-size: 1.1rem;
       }
-
-      .export-csv-btn:active {
-        background-color: #1e1e1e;
-        border: none;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      .leaderboard-avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: var(--card-shadow);
       }
-
-      .tab-content {
-        display: none;
+      .leaderboard-info {
+        flex-grow: 1;
       }
-
-      .tab-content.active {
-        display: block;
+      .leaderboard-name {
+        font-weight: var(--heading-font-weight);
+        font-size: 1rem;
+      }
+      .leaderboard-username {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+      .leaderboard-score {
+        font-weight: var(--heading-font-weight);
+        color: var(--accent-color);
+        font-size: 1.05rem;
       }
 
       .grid {
@@ -244,73 +271,16 @@
         gap: 20px;
         grid-template-columns: repeat(2, 1fr);
       }
-
       @media (max-width: 768px) {
-        .container {
-          padding: 10px;
-        }
-
         .grid {
-          display: grid;
-          gap: 20px;
-          grid-template-columns: repeat(1, 1fr);
+          grid-template-columns: 1fr;
         }
-
         .tabs {
           flex-direction: column;
+          gap: 10px;
         }
-
         .tab {
           width: 100%;
-          border-radius: 15px;
-          text-align: center;
-        }
-
-        .chart-container canvas {
-          height: 200%;
-        }
-
-        .leaderboard-item {
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-        }
-
-        .leaderboard-rank {
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: var(--accent-color);
-        }
-
-        .leaderboard-avatar {
-          width: 50px;
-          height: 50px;
-          margin-right: 10px;
-        }
-
-        .leaderboard-info {
-          flex-grow: 1;
-          text-align: left;
-        }
-
-        .leaderboard-name {
-          font-size: 1.1rem;
-        }
-
-        .leaderboard-username {
-          font-size: 0.9rem;
-          color: var(--text-muted);
-        }
-
-        .leaderboard-score {
-          font-size: 1.1rem;
-          font-weight: bold;
-          color: var(--accent-color);
-        }
-
-        .leaderboard-item {
-          padding: 15px 10px;
-          border-bottom: 1px solid var(--border-color);
         }
       }
     </style>
@@ -323,7 +293,7 @@
           <img id="server-icon" class="server-icon" src="" alt="Server Icon" />
           <h1 id="server-name">Loading...</h1>
         </div>
-        <button id="exportCsvBtn" class="export-csv-btn">Export to CSV</button>
+        <button id="exportCsvBtn">Export to CSV</button>
       </header>
 
       <div class="tabs">
@@ -364,12 +334,10 @@
       function getApiUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const serverId = urlParams.get("server");
-
         if (serverId) {
           return `https://api.communitrics.com/counting/s/${serverId}/all`;
-        } else {
-          return "https://api.communitrics.com/counting/s/1150096734576451614/all";
         }
+        return "https://api.communitrics.com/counting/s/1150096734576451614/all";
       }
 
       const apiUrl = getApiUrl();
@@ -384,39 +352,9 @@
           }
           return await response.json();
         } catch (error) {
+          console.error("Data fetch error:", error);
           return null;
         }
-      }
-
-      function getVibrancy(rgb) {
-        const max = Math.max(rgb[0], rgb[1], rgb[2]);
-        const min = Math.min(rgb[0], rgb[1], rgb[2]);
-        const saturation = max - min;
-        const brightness = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
-        return saturation * brightness;
-      }
-
-      function getMostVibrantColor(palette) {
-        return palette.reduce((mostVibrant, color) =>
-          getVibrancy(color) > getVibrancy(mostVibrant) ? color : mostVibrant
-        );
-      }
-
-      function extractColorFromImage(imgSrc, callback) {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.src = imgSrc;
-        img.onload = () => {
-          const colorThief = new ColorThief();
-          const palette = colorThief.getPalette(img, 8);
-          const mostVibrantColor = getMostVibrantColor(palette);
-          const color = `rgba(${mostVibrantColor.join(",")}, 0.6)`;
-          callback(color);
-        };
-      }
-
-      function setChartHeight(container, height) {
-        container.style.height = height + "px";
       }
 
       function initializeDashboard() {
@@ -434,6 +372,36 @@
         });
       }
 
+      document.addEventListener("DOMContentLoaded", initializeDashboard);
+
+      function extractColorFromImage(imgSrc, callback) {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = imgSrc;
+        img.onload = () => {
+          const colorThief = new ColorThief();
+          const palette = colorThief.getPalette(img, 8);
+          const vibrant = getMostVibrantColor(palette);
+          const color = `rgba(${vibrant.join(",")}, 0.6)`;
+          callback(color);
+        };
+      }
+
+      function getVibrancy(rgb) {
+        const [r, g, b] = rgb;
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        const saturation = max - min;
+        const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+        return saturation * brightness;
+      }
+
+      function getMostVibrantColor(palette) {
+        return palette.reduce((mostVibrant, color) =>
+          getVibrancy(color) > getVibrancy(mostVibrant) ? color : mostVibrant
+        );
+      }
+
       function updateServerInfo(callback) {
         const serverIcon = document.getElementById("server-icon");
         const serverName = document.getElementById("server-name");
@@ -448,651 +416,551 @@
         };
       }
 
-function createServerOverviewChart() {
-    const container = document.getElementById("server-overview-chart");
-    setChartHeight(container, 600);
-    const resetButton = document.createElement("button");
-    resetButton.textContent = "Reset Zoom";
-    resetButton.className = "reset-zoom-btn";
-    const cardHeader = document.querySelector("#overview .card-header");
-    cardHeader.appendChild(resetButton);
+      function initializeTabs() {
+        const tabs = document.querySelectorAll(".tab");
+        const tabContents = document.querySelectorAll(".tab-content");
 
-    const accentColor = getComputedStyle(
-        document.documentElement
-    ).getPropertyValue("--accent-color");
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const tabId = tab.getAttribute("data-tab");
+            tabs.forEach((t) => t.classList.remove("active"));
+            tabContents.forEach((content) =>
+              content.classList.remove("active")
+            );
+            tab.classList.add("active");
+            document.getElementById(tabId).classList.add("active");
+          });
+        });
+      }
 
-    resetButton.style.backgroundColor = accentColor;
-    resetButton.addEventListener("mouseover", () => {
-        resetButton.style.backgroundColor = "#333333";
-        resetButton.style.color = "white";
-    });
-    resetButton.addEventListener("mouseout", () => {
-        resetButton.style.backgroundColor = accentColor;
-        resetButton.style.color = "white";
-    });
+      function createServerOverviewChart() {
+        const container = document.getElementById("server-overview-chart");
+        container.style.height = "500px";
 
-    const allCounts = serverData.channels.flatMap((channel) =>
-        channel.counts.map((count) => ({
+        const resetButton = document.createElement("button");
+        resetButton.textContent = "Reset Zoom";
+        resetButton.className = "reset-zoom-btn";
+        const cardHeader = document.querySelector("#overview .card-header");
+        cardHeader.appendChild(resetButton);
+
+        const allCounts = serverData.channels.flatMap((channel) =>
+          channel.counts.map((count) => ({
             ...count,
             channelName: channel.channel_name,
-        }))
-    );
+          }))
+        );
+        allCounts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
-    allCounts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
-    let cumulativeCount = 0;
-    const cumulativeData = allCounts.map((count) => {
-        cumulativeCount += 1;
-        return [
+        let cumulativeCount = 0;
+        const cumulativeData = allCounts.map((count) => {
+          cumulativeCount += 1;
+          return [
             new Date(count.timestamp).getTime(),
             cumulativeCount,
             count.channelName,
-        ];
-    });
+          ];
+        });
 
-    const totalPoints = cumulativeData.length;
-    let skipRate = 1;
+        const totalPoints = cumulativeData.length;
+        let skipRate = 1;
+        if (totalPoints > 2000) {
+          skipRate = Math.ceil(totalPoints / 2000);
+        }
+        const sampledData = cumulativeData.filter(
+          (_, index) => index % skipRate === 0
+        );
 
-    if (totalPoints > 4000) {
-        skipRate = Math.ceil(totalPoints / 4000);
-    }
-
-    const sampledData = cumulativeData.filter((_, index) => index % skipRate === 0);
-
-    console.log(`Starting points: ${totalPoints}, Skip rate: Every ${skipRate} points, Final points: ${sampledData.length}`);
-
-    charts["server-overview"] = Highcharts.chart(container, {
-        chart: {
+        charts["server-overview"] = Highcharts.chart(container, {
+          chart: {
             type: "area",
             zoomType: "x",
             backgroundColor: "transparent",
-            height: 600,
+            height: 500,
             animation: true,
             resetZoomButton: {
-                theme: {
-                    display: "none",
-                },
+              theme: { display: "none" },
             },
-        },
-        title: {
-            text: null,
-        },
-        xAxis: {
+            style: {
+              fontFamily: "Poppins, sans-serif",
+            },
+            events: {
+              selection: function (event) {
+                if (event.xAxis) {
+                  resetButton.style.display = "inline-block";
+                }
+              },
+            },
+          },
+          title: { text: null },
+          xAxis: {
             type: "datetime",
             tickAmount: 6,
             labels: {
-                style: {
-                    color: getComputedStyle(
-                        document.documentElement
-                    ).getPropertyValue("--text-color"),
-                    fontSize: "12px",
-                    fontFamily: "Poppins, sans-serif",
-                },
-                formatter: function () {
-                    const date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                    const time = Highcharts.dateFormat("%H:%M:%S", this.value);
-                    return `${date}<br>${time}`;
-                },
+              style: {
+                color: getComputedStyle(
+                  document.documentElement
+                ).getPropertyValue("--text-color"),
+                fontSize: "12px",
+              },
+              formatter: function () {
+                const date = Highcharts.dateFormat("%b %d, %Y", this.value);
+                const time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                return `${date}\n${time}`;
+              },
             },
             lineColor: getComputedStyle(
-                document.documentElement
+              document.documentElement
             ).getPropertyValue("--border-color"),
             tickColor: getComputedStyle(
-                document.documentElement
+              document.documentElement
             ).getPropertyValue("--border-color"),
-        },
-        yAxis: {
-            title: {
-                text: null,
-            },
+          },
+          yAxis: {
+            title: { text: null },
             labels: {
-                style: {
-                    color: getComputedStyle(
-                        document.documentElement
-                    ).getPropertyValue("--text-color"),
-                    fontSize: "12px",
-                    fontFamily: "Poppins, sans-serif",
-                },
+              style: {
+                color: getComputedStyle(
+                  document.documentElement
+                ).getPropertyValue("--text-color"),
+                fontSize: "12px",
+              },
             },
             gridLineColor: getComputedStyle(
-                document.documentElement
+              document.documentElement
             ).getPropertyValue("--border-color"),
-        },
-        tooltip: {
+          },
+          tooltip: {
             backgroundColor: "#333333",
             style: {
-                color: "#FFFFFF",
-                fontWeight: "normal",
-                fontSize: "12px",
-                fontFamily: "Poppins, sans-serif",
+              color: "#ffffff",
+              fontWeight: "normal",
+              fontSize: "12px",
             },
             formatter: function () {
-                return (
-                    "<b>Date:</b> " +
-                    Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
-                    "<br/><b>Total counts:</b> " +
-                    this.y.toLocaleString()
-                );
+              return (
+                "<b>Date:</b> " +
+                Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
+                "<br/><b>Total counts:</b> " +
+                this.y.toLocaleString()
+              );
             },
             useHTML: true,
-        },
-        series: [
+            borderRadius: 8,
+            borderWidth: 0,
+          },
+          series: [
             {
-                name: "Total Counts",
-                data: sampledData.map((d) => ({
-                    x: d[0],
-                    y: d[1],
-                    channel: d[2],
-                })),
-                color: accentColor,
-                fillColor: accentColor,
-                marker: {
-                    enabled: false,
-                },
+              name: "Total Counts",
+              data: sampledData.map((d) => ({
+                x: d[0],
+                y: d[1],
+                channel: d[2],
+              })),
+              color: getComputedStyle(
+                document.documentElement
+              ).getPropertyValue("--accent-color"),
+              fillColor: getComputedStyle(
+                document.documentElement
+              ).getPropertyValue("--accent-color"),
+              marker: { enabled: false },
             },
-        ],
-        plotOptions: {
+          ],
+          plotOptions: {
             area: {
-                marker: {
-                    enabled: false,
-                },
-                lineWidth: 2,
-                lineColor: accentColor,
-                fillOpacity: 0.5,
-                series: {
-                    marker: {
-                        radius: 2,
-                    },
-                    lineWidth: 3,
-                    states: {
-                        hover: {
-                            lineWidth: 2,
-                        },
-                    },
-                },
+              lineWidth: 2,
+              fillOpacity: 0.5,
             },
-        },
-        credits: {
-            enabled: false,
-        },
-        exporting: {
-            enabled: false,
-        },
-        legend: {
-            enabled: false,
-        },
-    });
-
-    resetButton.addEventListener("click", () => {
-        charts["server-overview"].zoomOut();
-        resetButton.style.display = "none";
-    });
-
-    charts["server-overview"].update({
-        chart: {
-            events: {
-                selection: function (event) {
-                    if (event.xAxis) {
-                        resetButton.style.display = "block";
-                    }
+            series: {
+              states: {
+                hover: {
+                  lineWidth: 2,
                 },
+              },
             },
-        },
-    });
-}
-
-function createChannelCharts() {
-    const channelChartsGrid = document.getElementById("channel-charts-grid");
-
-    if (serverData.channels.length > 1) {
-        channelChartsGrid.classList.add("grid");
-    } else {
-        channelChartsGrid.classList.remove("grid");
-    }
-
-    serverData.channels.forEach((channel) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-      <div class="card-header">
-          <h2 class="card-title">${channel.channel_name}</h2>
-          <button id="resetZoomChannel-${channel.channel_id}" class="reset-zoom-btn">Reset Zoom</button>
-      </div>
-      <div id="channel-${channel.channel_id}-chart" class="chart-container"></div>
-    `;
-        channelChartsGrid.appendChild(card);
-
-        const container = document.getElementById(
-            `channel-${channel.channel_id}-chart`
-        );
-        const resetButton = document.getElementById(
-            `resetZoomChannel-${channel.channel_id}`
-        );
-
-        const accentColor = getComputedStyle(
-            document.documentElement
-        ).getPropertyValue("--accent-color");
-
-        resetButton.style.backgroundColor = accentColor;
-        resetButton.addEventListener("mouseover", () => {
-            resetButton.style.backgroundColor = "#333333";
-            resetButton.style.color = "white";
-        });
-        resetButton.addEventListener("mouseout", () => {
-            resetButton.style.backgroundColor = accentColor;
-            resetButton.style.color = "white";
+          },
+          credits: { enabled: false },
+          exporting: { enabled: false },
+          legend: { enabled: false },
         });
 
-        const channelCounts = channel.counts.map((count) => [
-            new Date(count.timestamp).getTime(),
-            count.count_number,
-        ]);
+        resetButton.addEventListener("click", () => {
+          charts["server-overview"].zoomOut();
+          resetButton.style.display = "none";
+        });
+      }
 
-        const totalPoints = channelCounts.length;
-        let skipRate = 1;
+      function createChannelCharts() {
+        const channelChartsGrid = document.getElementById(
+          "channel-charts-grid"
+        );
 
-        if (totalPoints > 4000) {
-            skipRate = Math.ceil(totalPoints / 4000);
+        if (serverData.channels.length > 1) {
+          channelChartsGrid.classList.add("grid");
+        } else {
+          channelChartsGrid.classList.remove("grid");
         }
 
-        const sampledData = channelCounts.filter((_, index) => index % skipRate === 0);
+        serverData.channels.forEach((channel) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="card-header">
+              <h2 class="card-title">${channel.channel_name}</h2>
+              <button id="resetZoomChannel-${channel.channel_id}" class="reset-zoom-btn">Reset Zoom</button>
+            </div>
+            <div id="channel-${channel.channel_id}-chart" class="chart-container"></div>
+          `;
+          channelChartsGrid.appendChild(card);
 
-        console.log(`Starting points for channel ${channel.channel_id}: ${totalPoints}, Skip rate: Every ${skipRate} points, Final points: ${sampledData.length}`);
+          const container = document.getElementById(
+            `channel-${channel.channel_id}-chart`
+          );
+          container.style.height =
+            serverData.channels.length > 1 ? "320px" : "500px";
+          const resetButton = document.getElementById(
+            `resetZoomChannel-${channel.channel_id}`
+          );
 
-        const chartHeight = serverData.channels.length > 1 ? 300 : 600;
-        const chartOptions = {
-            chart: {
+          const accentColor = getComputedStyle(
+            document.documentElement
+          ).getPropertyValue("--accent-color");
+          const channelCounts = channel.counts.map((count) => [
+            new Date(count.timestamp).getTime(),
+            count.count_number,
+          ]);
+          channelCounts.sort((a, b) => a[0] - b[0]);
+
+          const totalPoints = channelCounts.length;
+          let skipRate = 1;
+          if (totalPoints > 2000) {
+            skipRate = Math.ceil(totalPoints / 2000);
+          }
+          const sampledData = channelCounts.filter(
+            (_, index) => index % skipRate === 0
+          );
+
+          charts[`channel-${channel.channel_id}`] = Highcharts.chart(
+            container,
+            {
+              chart: {
                 type: "area",
                 zoomType: "x",
                 backgroundColor: "transparent",
                 animation: true,
-                height: chartHeight,
-                resetZoomButton: {
-                    theme: {
-                        display: "none",
-                    },
+                resetZoomButton: { theme: { display: "none" } },
+                style: { fontFamily: "Poppins, sans-serif" },
+                events: {
+                  selection: function (event) {
+                    if (event.xAxis) {
+                      resetButton.style.display = "inline-block";
+                    }
+                  },
                 },
-            },
-            title: {
-                text: null,
-            },
-            xAxis: {
+              },
+              title: { text: null },
+              xAxis: {
                 type: "datetime",
                 tickAmount: 6,
                 labels: {
-                    style: {
-                        color: getComputedStyle(
-                            document.documentElement
-                        ).getPropertyValue("--text-color"),
-                        fontSize: "12px",
-                        fontFamily: "Poppins, sans-serif",
-                    },
-                    formatter: function () {
-                        const date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                        const time = Highcharts.dateFormat("%H:%M:%S", this.value);
-                        return `${date}<br>${time}`;
-                    },
+                  style: {
+                    color: getComputedStyle(
+                      document.documentElement
+                    ).getPropertyValue("--text-color"),
+                    fontSize: "12px",
+                  },
+                  formatter: function () {
+                    const date = Highcharts.dateFormat("%b %d, %Y", this.value);
+                    const time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                    return `${date}\n${time}`;
+                  },
                 },
                 lineColor: getComputedStyle(
-                    document.documentElement
+                  document.documentElement
                 ).getPropertyValue("--border-color"),
                 tickColor: getComputedStyle(
-                    document.documentElement
+                  document.documentElement
                 ).getPropertyValue("--border-color"),
-            },
-            yAxis: {
-                title: {
-                    text: null,
-                },
+              },
+              yAxis: {
+                title: { text: null },
                 labels: {
-                    style: {
-                        color: getComputedStyle(
-                            document.documentElement
-                        ).getPropertyValue("--text-color"),
-                        fontSize: "12px",
-                        fontFamily: "Poppins, sans-serif",
-                    },
+                  style: {
+                    color: getComputedStyle(
+                      document.documentElement
+                    ).getPropertyValue("--text-color"),
+                    fontSize: "12px",
+                  },
                 },
                 gridLineColor: getComputedStyle(
-                    document.documentElement
+                  document.documentElement
                 ).getPropertyValue("--border-color"),
-                min: Math.min(...channel.counts.map((c) => c.count_number)),
-            },
-            tooltip: {
+              },
+              tooltip: {
                 backgroundColor: "#333333",
                 style: {
-                    color: "#FFFFFF",
-                    fontWeight: "normal",
-                    fontSize: "12px",
-                    fontFamily: "Poppins, sans-serif",
+                  color: "#ffffff",
+                  fontSize: "12px",
                 },
                 formatter: function () {
-                    return (
-                        "<b>Date:</b> " +
-                        Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
-                        "<br/><b>Count:</b> " +
-                        this.y.toLocaleString()
-                    );
+                  return (
+                    "<b>Date:</b> " +
+                    Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
+                    "<br/><b>Count:</b> " +
+                    this.y.toLocaleString()
+                  );
                 },
                 useHTML: true,
-            },
-            series: [
+                borderRadius: 8,
+                borderWidth: 0,
+              },
+              series: [
                 {
-                    name: "Count",
-                    data: sampledData,
-                    color: accentColor,
-                    fillColor: accentColor,
-                    marker: {
-                        enabled: false,
-                    },
+                  name: "Count",
+                  data: sampledData,
+                  color: accentColor,
+                  fillColor: accentColor,
+                  marker: { enabled: false },
                 },
-            ],
-            plotOptions: {
+              ],
+              plotOptions: {
                 area: {
-                    marker: {
-                        enabled: false,
-                    },
-                    lineWidth: 2,
-                    lineColor: accentColor,
-                    fillOpacity: 0.5,
-                    series: {
-                        marker: {
-                            radius: 2,
-                        },
-                        lineWidth: 3,
-                        states: {
-                            hover: {
-                                lineWidth: 2,
-                            },
-                        },
-                    },
+                  lineWidth: 2,
+                  lineColor: accentColor,
+                  fillOpacity: 0.5,
                 },
-            },
-            credits: {
-                enabled: false,
-            },
-            exporting: {
-                enabled: false,
-            },
-            legend: {
-                enabled: false,
-            },
-        };
+                series: {
+                  states: {
+                    hover: {
+                      lineWidth: 2,
+                    },
+                  },
+                },
+              },
+              credits: { enabled: false },
+              exporting: { enabled: false },
+              legend: { enabled: false },
+            }
+          );
 
-        charts[`channel-${channel.channel_id}`] = Highcharts.chart(
-            container,
-            chartOptions
-        );
-
-        resetButton.addEventListener("click", () => {
+          resetButton.addEventListener("click", () => {
             charts[`channel-${channel.channel_id}`].zoomOut();
             resetButton.style.display = "none";
+          });
         });
+      }
 
-        charts[`channel-${channel.channel_id}`].update({
-            chart: {
-                events: {
-                    selection: function (event) {
-                        if (event.xAxis) {
-                            resetButton.style.display = "block";
-                        }
-                    },
-                },
-            },
-        });
-    });
-}
+      function createUserCharts() {
+        const userChartsGrid = document.getElementById("user-charts-grid");
+        const userCounts = {};
+        const userTotals = {};
 
-function createUserCharts() {
-    const userChartsGrid = document.getElementById("user-charts-grid");
-    const userCounts = {};
-    const userTotals = {};
-
-    const allCounts = serverData.channels.flatMap((channel) =>
-        channel.counts.map((count) => ({
+        const allCounts = serverData.channels.flatMap((channel) =>
+          channel.counts.map((count) => ({
             ...count,
             channelName: channel.channel_name,
-        }))
-    );
+          }))
+        );
+        allCounts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
-    allCounts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
-    allCounts.forEach((count) => {
-        if (!userCounts[count.user_id]) {
+        allCounts.forEach((count) => {
+          if (!userCounts[count.user_id]) {
             userCounts[count.user_id] = {
-                id: count.user_id,
-                username: count.username,
-                display_name: count.display_name,
-                profile_pic: count.profile_pic,
-                counts: [],
+              id: count.user_id,
+              username: count.username,
+              display_name: count.display_name,
+              profile_pic: count.profile_pic,
+              counts: [],
             };
-        }
-
-        userCounts[count.user_id].counts.push({
+          }
+          userCounts[count.user_id].counts.push({
             x: new Date(count.timestamp).getTime(),
             y: userCounts[count.user_id].counts.length + 1,
+          });
+
+          if (!userTotals[count.user_id]) {
+            userTotals[count.user_id] = { id: count.user_id, total: 0 };
+          }
+          userTotals[count.user_id].total += 1;
         });
 
-        if (!userTotals[count.user_id]) {
-            userTotals[count.user_id] = {
-                id: count.user_id,
-                total: 0,
-            };
-        }
-        userTotals[count.user_id].total += 1;
-    });
-
-    const sortedUsers = Object.values(userTotals).sort(
-        (a, b) => b.total - a.total
-    );
-
-    if (Object.keys(userCounts).length > 1) {
-        userChartsGrid.classList.add("grid");
-    } else {
-        userChartsGrid.classList.remove("grid");
-    }
-
-    sortedUsers.forEach((userTotal, index) => {
-        const user = userCounts[userTotal.id];
-        const rank = index + 1;
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-      <div class="card-header">
-        <div class="card-title-wrapper" style="display: flex; align-items: center;">
-            <img src="${user.profile_pic}" alt="${user.display_name}'s Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-            <div>
-                <h2 class="card-title" style="margin: 0;">${user.display_name} (@${user.username})</h2>
-                <span class="card-rank">Leaderboard Rank: #${rank}</span>
-            </div>
-        </div>
-        <button id="resetZoomUser-${user.id}" class="reset-zoom-btn">Reset Zoom</button>
-      </div>
-      <div id="user-${user.id}-chart" class="chart-container"></div>
-    `;
-        userChartsGrid.appendChild(card);
-
-        const container = document.getElementById(`user-${user.id}-chart`);
-        const resetButton = document.getElementById(
-            `resetZoomUser-${user.id}`
+        const sortedUsers = Object.values(userTotals).sort(
+          (a, b) => b.total - a.total
         );
 
-        const profilePic = new Image();
-        profilePic.crossOrigin = "Anonymous";
-        profilePic.src = user.profile_pic;
-        profilePic.onload = () => {
+        if (Object.keys(userCounts).length > 1) {
+          userChartsGrid.classList.add("grid");
+        } else {
+          userChartsGrid.classList.remove("grid");
+        }
+
+        sortedUsers.forEach((userTotal, index) => {
+          const user = userCounts[userTotal.id];
+          const rank = index + 1;
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="card-header">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <img
+                  src="${user.profile_pic}"
+                  alt="${user.display_name}'s Profile Picture"
+                  style="
+                    width: 46px;
+                    height: 46px;
+                    border-radius: 12px;
+                    object-fit: cover;
+                    box-shadow: var(--card-shadow);
+                  "
+                />
+                <div>
+                  <h2 class="card-title" style="margin: 0;">${user.display_name} (@${user.username})</h2>
+                  <small style="color: var(--text-muted);">Leaderboard Rank: #${rank}</small>
+                </div>
+              </div>
+              <button id="resetZoomUser-${user.id}" class="reset-zoom-btn">Reset Zoom</button>
+            </div>
+            <div id="user-${user.id}-chart" class="chart-container"></div>
+          `;
+          userChartsGrid.appendChild(card);
+
+          const container = document.getElementById(`user-${user.id}-chart`);
+          container.style.height =
+            Object.keys(userCounts).length > 1 ? "320px" : "500px";
+          const resetButton = document.getElementById(
+            `resetZoomUser-${user.id}`
+          );
+
+          const profilePic = new Image();
+          profilePic.crossOrigin = "Anonymous";
+          profilePic.src = user.profile_pic;
+          profilePic.onload = () => {
             const colorThief = new ColorThief();
             const palette = colorThief.getPalette(profilePic, 8);
-            const mostVibrantColor = getMostVibrantColor(palette);
-            const color = `rgba(${mostVibrantColor.join(",")}, 0.6)`;
+            const vibrant = getMostVibrantColor(palette);
+            const color = `rgba(${vibrant.join(",")}, 0.65)`;
 
             resetButton.style.backgroundColor = color;
-            resetButton.addEventListener("mouseover", () => {
-                resetButton.style.backgroundColor = "#333333";
-                resetButton.style.color = "white";
-            });
-            resetButton.addEventListener("mouseout", () => {
-                resetButton.style.backgroundColor = color;
-                resetButton.style.color = "white";
-            });
 
             const userData = user.counts;
             const totalPoints = userData.length;
             let skipRate = 1;
-
-            if (totalPoints > 4000) {
-                skipRate = Math.ceil(totalPoints / 4000);
+            if (totalPoints > 2000) {
+              skipRate = Math.ceil(totalPoints / 2000);
             }
-
-            const sampledData = userData.filter((_, index) => index % skipRate === 0);
-
-            console.log(`Starting points for user ${user.id}: ${totalPoints}, Skip rate: Every ${skipRate} points, Final points: ${sampledData.length}`);
-
-            const chartHeight = Object.keys(userCounts).length > 1 ? 300 : 600;
-
-            const chartOptions = {
-                chart: {
-                    type: "area",
-                    zoomType: "x",
-                    backgroundColor: "transparent",
-                    animation: true,
-                    height: chartHeight,
-                    resetZoomButton: {
-                        theme: {
-                            display: "none",
-                        },
-                    },
-                },
-                title: {
-                    text: null,
-                },
-                xAxis: {
-                    type: "datetime",
-                    tickAmount: 6,
-                    labels: {
-                        style: {
-                            color: getComputedStyle(
-                                document.documentElement
-                            ).getPropertyValue("--text-color"),
-                            fontSize: "12px",
-                            fontFamily: "Poppins, sans-serif",
-                        },
-                        formatter: function () {
-                            const date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                            const time = Highcharts.dateFormat("%H:%M:%S", this.value);
-                            return `${date}<br>${time}`;
-                        },
-                    },
-                    lineColor: getComputedStyle(
-                        document.documentElement
-                    ).getPropertyValue("--border-color"),
-                    tickColor: getComputedStyle(
-                        document.documentElement
-                    ).getPropertyValue("--border-color"),
-                },
-                yAxis: {
-                    title: {
-                        text: null,
-                    },
-                    labels: {
-                        style: {
-                            color: getComputedStyle(
-                                document.documentElement
-                            ).getPropertyValue("--text-color"),
-                            fontSize: "12px",
-                            fontFamily: "Poppins, sans-serif",
-                        },
-                    },
-                    gridLineColor: getComputedStyle(
-                        document.documentElement
-                    ).getPropertyValue("--border-color"),
-                    min: 0,
-                },
-                tooltip: {
-                    backgroundColor: "#333333",
-                    style: {
-                        color: "#FFFFFF",
-                        fontWeight: "normal",
-                        fontSize: "12px",
-                        fontFamily: "Poppins, sans-serif",
-                    },
-                    formatter: function () {
-                        return (
-                            "<b>Date:</b> " +
-                            Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
-                            "<br/><b>Total counts:</b> " +
-                            this.y.toLocaleString()
-                        );
-                    },
-                    useHTML: true,
-                },
-                series: [
-                    {
-                        name: "Total Counts",
-                        data: sampledData,
-                        color: color,
-                        fillColor: color,
-                        marker: {
-                            enabled: false,
-                        },
-                    },
-                ],
-                plotOptions: {
-                    area: {
-                        marker: {
-                            enabled: false,
-                        },
-                        lineWidth: 2,
-                        lineColor: color,
-                        fillOpacity: 0.5,
-                        series: {
-                            marker: {
-                                radius: 2,
-                            },
-                            lineWidth: 3,
-                            states: {
-                                hover: {
-                                    lineWidth: 2,
-                                },
-                            },
-                        },
-                    },
-                },
-                credits: {
-                    enabled: false,
-                },
-                exporting: {
-                    enabled: false,
-                },
-                legend: {
-                    enabled: false,
-                },
-            };
-
-            charts[`user-${user.id}`] = Highcharts.chart(
-                container,
-                chartOptions
+            const sampledData = userData.filter(
+              (_, idx) => idx % skipRate === 0
             );
 
-            resetButton.addEventListener("click", () => {
-                charts[`user-${user.id}`].zoomOut();
-                resetButton.style.display = "none";
+            charts[`user-${user.id}`] = Highcharts.chart(container, {
+              chart: {
+                type: "area",
+                zoomType: "x",
+                backgroundColor: "transparent",
+                animation: true,
+                resetZoomButton: { theme: { display: "none" } },
+                style: {
+                  fontFamily: "Poppins, sans-serif",
+                },
+                events: {
+                  selection: function (event) {
+                    if (event.xAxis) {
+                      resetButton.style.display = "inline-block";
+                    }
+                  },
+                },
+              },
+              title: { text: null },
+              xAxis: {
+                type: "datetime",
+                tickAmount: 6,
+                labels: {
+                  style: {
+                    color: getComputedStyle(
+                      document.documentElement
+                    ).getPropertyValue("--text-color"),
+                    fontSize: "12px",
+                  },
+                  formatter: function () {
+                    const date = Highcharts.dateFormat("%b %d, %Y", this.value);
+                    const time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                    return `${date}\n${time}`;
+                  },
+                },
+                lineColor: getComputedStyle(
+                  document.documentElement
+                ).getPropertyValue("--border-color"),
+                tickColor: getComputedStyle(
+                  document.documentElement
+                ).getPropertyValue("--border-color"),
+              },
+              yAxis: {
+                title: { text: null },
+                labels: {
+                  style: {
+                    color: getComputedStyle(
+                      document.documentElement
+                    ).getPropertyValue("--text-color"),
+                    fontSize: "12px",
+                  },
+                },
+                gridLineColor: getComputedStyle(
+                  document.documentElement
+                ).getPropertyValue("--border-color"),
+              },
+              tooltip: {
+                backgroundColor: "#333333",
+                style: {
+                  color: "#ffffff",
+                  fontSize: "12px",
+                },
+                formatter: function () {
+                  return (
+                    "<b>Date:</b> " +
+                    Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
+                    "<br/><b>Total counts:</b> " +
+                    this.y.toLocaleString()
+                  );
+                },
+                useHTML: true,
+                borderRadius: 8,
+                borderWidth: 0,
+              },
+              series: [
+                {
+                  name: "Total Counts",
+                  data: sampledData,
+                  color: color,
+                  fillColor: color,
+                  marker: { enabled: false },
+                },
+              ],
+              plotOptions: {
+                area: {
+                  lineWidth: 2,
+                  lineColor: color,
+                  fillOpacity: 0.5,
+                },
+                series: {
+                  states: {
+                    hover: {
+                      lineWidth: 2,
+                    },
+                  },
+                },
+              },
+              credits: { enabled: false },
+              exporting: { enabled: false },
+              legend: { enabled: false },
             });
 
-            charts[`user-${user.id}`].update({
-                chart: {
-                    events: {
-                        selection: function (event) {
-                            if (event.xAxis) {
-                                resetButton.style.display = "block";
-                            }
-                        },
-                    },
-                },
+            resetButton.addEventListener("click", () => {
+              charts[`user-${user.id}`].zoomOut();
+              resetButton.style.display = "none";
             });
-        };
-    });
-}
+          };
+        });
+      }
 
       function createLeaderboard() {
         const leaderboard = document.getElementById("leaderboard-list");
@@ -1102,7 +970,6 @@ function createUserCharts() {
           channel.counts.forEach((count) => {
             if (!userTotals[count.user_id]) {
               userTotals[count.user_id] = {
-                id: count.user_id,
                 username: count.username,
                 display_name: count.display_name,
                 profile_pic: count.profile_pic,
@@ -1121,40 +988,21 @@ function createUserCharts() {
           const li = document.createElement("li");
           li.className = "leaderboard-item";
           li.innerHTML = `
-                <span class="leaderboard-rank">#${index + 1}</span>
-                <img class="leaderboard-avatar" src="${
-                  user.profile_pic
-                }" alt="${user.display_name}">
-                <div class="leaderboard-info">
-                    <span class="leaderboard-name">${user.display_name}</span>
-                    <span class="leaderboard-username">@${user.username}</span>
-                </div>
-                <span class="leaderboard-score">${user.total.toLocaleString()}</span>
-            `;
+            <span class="leaderboard-rank">#${index + 1}</span>
+            <img
+              class="leaderboard-avatar"
+              src="${user.profile_pic}"
+              alt="${user.display_name}"
+            />
+            <div class="leaderboard-info">
+              <span class="leaderboard-name">${user.display_name}</span>
+              <span class="leaderboard-username">@${user.username}</span>
+            </div>
+            <span class="leaderboard-score">${user.total.toLocaleString()}</span>
+          `;
           leaderboard.appendChild(li);
         });
       }
-
-      function initializeTabs() {
-        const tabs = document.querySelectorAll(".tab");
-        const tabContents = document.querySelectorAll(".tab-content");
-
-        tabs.forEach((tab) => {
-          tab.addEventListener("click", () => {
-            const tabId = tab.getAttribute("data-tab");
-
-            tabs.forEach((t) => t.classList.remove("active"));
-            tabContents.forEach((content) =>
-              content.classList.remove("active")
-            );
-
-            tab.classList.add("active");
-            document.getElementById(tabId).classList.add("active");
-          });
-        });
-      }
-
-      document.addEventListener("DOMContentLoaded", initializeDashboard);
 
       document
         .getElementById("exportCsvBtn")
@@ -1199,7 +1047,6 @@ function createUserCharts() {
             channelName: channel.channel_name,
           }))
         );
-
         allCounts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
         let cumulativeCount = 0;
@@ -1209,7 +1056,6 @@ function createUserCharts() {
         });
 
         const csvRows = [["Timestamp", "Total Count"], ...cumulativeData];
-
         return csvRows.map((row) => row.join(",")).join("\n");
       }
 
@@ -1219,6 +1065,36 @@ function createUserCharts() {
           ...channel.counts.map((count) => [
             count.timestamp,
             count.count_number,
+          ]),
+        ];
+        return csvRows.map((row) => row.join(",")).join("\n");
+      }
+
+      function generateLeaderboardCsv(data) {
+        const userTotals = {};
+        data.channels.forEach((channel) => {
+          channel.counts.forEach((count) => {
+            if (!userTotals[count.user_id]) {
+              userTotals[count.user_id] = {
+                username: count.username,
+                display_name: count.display_name,
+                profile_pic: count.profile_pic,
+                total: 0,
+              };
+            }
+            userTotals[count.user_id].total += 1;
+          });
+        });
+        const sortedUsers = Object.values(userTotals).sort(
+          (a, b) => b.total - a.total
+        );
+        const csvRows = [
+          ["Rank", "Username", "Display Name", "Total Counts"],
+          ...sortedUsers.map((user, index) => [
+            index + 1,
+            user.username,
+            user.display_name,
+            user.total,
           ]),
         ];
         return csvRows.map((row) => row.join(",")).join("\n");
@@ -1245,40 +1121,6 @@ function createUserCharts() {
           ["Timestamp", "Count"],
           ...user.counts.map((count) => [count.timestamp, count.count_number]),
         ];
-        return csvRows.map((row) => row.join(",")).join("\n");
-      }
-
-      function generateLeaderboardCsv(data) {
-        const userTotals = {};
-
-        data.channels.forEach((channel) => {
-          channel.counts.forEach((count) => {
-            if (!userTotals[count.user_id]) {
-              userTotals[count.user_id] = {
-                username: count.username,
-                display_name: count.display_name,
-                profile_pic: count.profile_pic,
-                total: 0,
-              };
-            }
-            userTotals[count.user_id].total += 1;
-          });
-        });
-
-        const sortedUsers = Object.values(userTotals).sort(
-          (a, b) => b.total - a.total
-        );
-
-        const csvRows = [
-          ["Rank", "Username", "Display Name", "Total Counts"],
-          ...sortedUsers.map((user, index) => [
-            index + 1,
-            user.username,
-            user.display_name,
-            user.total,
-          ]),
-        ];
-
         return csvRows.map((row) => row.join(",")).join("\n");
       }
     </script>
