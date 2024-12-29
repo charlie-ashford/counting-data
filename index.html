@@ -9,9 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-
     <link rel="icon" href="./image.png" type="image/png" />
-
     <script src="https://code.highcharts.com/12.0.2/highcharts.js"></script>
     <script src="https://code.highcharts.com/12.0.2/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/12.0.2/modules/export-data.js"></script>
@@ -24,22 +22,18 @@
 
     <style>
       :root {
-        --accent-color: #ed4c67;
-        --accent-hover: #db284f;
-
-        --body-gradient-start: #ffffff;
-        --body-gradient-end: #f9fafb;
-        --card-bg: rgba(255, 255, 255, 0.55);
-        --text-color: #1f1f1f;
+        --accent-color: #5865f2;
+        --accent-hover: #404ddb;
+        --body-gradient-start: #f9f9fb;
+        --body-gradient-end: #ffffff;
+        --card-bg: #ffffff;
+        --text-color: #1a1a1a;
         --text-muted: #6b7280;
-        --border-color: rgba(255, 255, 255, 0.4);
-
-        --glass-blur: blur(16px);
-        --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
-
+        --border-color: #e4e4e4;
+        --card-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+        --card-radius: 10px;
         --heading-font-weight: 600;
         --body-font-weight: 400;
-
         --transition-speed: 0.3s;
       }
 
@@ -47,11 +41,11 @@
         :root {
           --body-gradient-start: #1f1f1f;
           --body-gradient-end: #2b2b2b;
-          --card-bg: rgba(44, 44, 44, 0.6);
+          --card-bg: #2b2b2b;
           --text-color: #e5e5e5;
           --text-muted: #a3a3a3;
-          --border-color: rgba(255, 255, 255, 0.1);
-          --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
+          --border-color: #3a3a3a;
+          --card-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
         }
       }
 
@@ -62,9 +56,7 @@
         padding: 0;
         box-sizing: border-box;
       }
-      html {
-        scroll-behavior: smooth;
-      }
+
       body {
         font-family: "Poppins", sans-serif;
         color: var(--text-color);
@@ -90,21 +82,24 @@
         align-items: center;
         margin-bottom: 20px;
       }
+
       .server-info {
         display: flex;
         align-items: center;
         gap: 15px;
       }
+
       .server-icon {
         width: 64px;
         height: 64px;
-        border-radius: 20px;
+        border-radius: 10px;
         box-shadow: var(--card-shadow);
         object-fit: cover;
       }
+
       .server-info h1 {
         font-weight: var(--heading-font-weight);
-        font-size: 1.8rem;
+        font-size: 2rem;
       }
 
       #exportCsvBtn {
@@ -113,21 +108,21 @@
         font-weight: var(--heading-font-weight);
         font-size: 0.95rem;
         border: none;
-        outline: none;
-        border-radius: 12px;
+        border-radius: 8px;
         padding: 12px 26px;
         box-shadow: var(--card-shadow);
         cursor: pointer;
         transition: background-color var(--transition-speed),
-          transform var(--transition-speed), box-shadow var(--transition-speed);
+          box-shadow var(--transition-speed);
       }
+
       #exportCsvBtn:hover {
         background: var(--accent-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
       }
+
       #exportCsvBtn:active {
-        transform: scale(0.96);
+        opacity: 0.9;
       }
 
       .tabs {
@@ -136,67 +131,95 @@
         gap: 10px;
         margin-bottom: 30px;
       }
+
       .tab {
         flex: 1;
         text-align: center;
         padding: 12px 0;
-        background-color: var(--card-bg);
-        backdrop-filter: var(--glass-blur);
+        background: var(--card-bg);
         border: 1px solid var(--border-color);
         border-radius: 999px;
         cursor: pointer;
         font-weight: var(--heading-font-weight);
-        transition: all var(--transition-speed);
+        transition: box-shadow var(--transition-speed);
         box-shadow: var(--card-shadow);
       }
+
       .tab.active {
         background: var(--accent-color);
         color: #fff;
         border-color: transparent;
-        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
+
       .tab:hover {
-        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
 
       .tab-content {
         display: none;
       }
+
       .tab-content.active {
         display: block;
       }
 
       .card {
-        background-color: var(--card-bg);
-        backdrop-filter: var(--glass-blur);
-        border-radius: 16px;
+        background: var(--card-bg);
+        border-radius: var(--card-radius);
         padding: 20px;
         box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
         margin-bottom: 20px;
-        transition: transform var(--transition-speed);
+        transition: box-shadow var(--transition-speed);
       }
+
       .card:hover {
-        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
       }
+
       .card-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 15px;
       }
+
       .card-title {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: var(--heading-font-weight);
       }
 
       .chart-container {
         width: 100%;
         min-height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .loading-spinner {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        border: 4px solid transparent;
+        border-radius: 50%;
+        border-top-color: var(--accent-color);
+        border-bottom-color: var(--accent-color);
+        animation: spin 1s cubic-bezier(0.66, 0, 0, 1) infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
 
       .reset-zoom-btn {
         display: none;
-        position: relative;
         background-color: var(--accent-color);
         color: #fff;
         border: none;
@@ -207,16 +230,18 @@
         cursor: pointer;
         box-shadow: var(--card-shadow);
         transition: background var(--transition-speed),
-          transform var(--transition-speed), box-shadow var(--transition-speed);
+          box-shadow var(--transition-speed);
       }
+
       .reset-zoom-btn:hover {
         background-color: var(--accent-hover);
-        transform: translateY(-2px);
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
       }
+
       .reset-zoom-btn:active {
-        transform: scale(0.96);
+        opacity: 0.9;
       }
+
       .highcharts-reset-zoom {
         display: none !important;
       }
@@ -234,32 +259,39 @@
         padding: 16px 0;
         border-bottom: 1px solid var(--border-color);
       }
+
       .leaderboard-item:last-child {
         border-bottom: none;
       }
+
       .leaderboard-rank {
         font-weight: var(--heading-font-weight);
         color: var(--accent-color);
         font-size: 1.1rem;
       }
+
       .leaderboard-avatar {
         width: 46px;
         height: 46px;
-        border-radius: 12px;
+        border-radius: 10px;
         object-fit: cover;
         box-shadow: var(--card-shadow);
       }
+
       .leaderboard-info {
         flex-grow: 1;
       }
+
       .leaderboard-name {
         font-weight: var(--heading-font-weight);
         font-size: 1rem;
       }
+
       .leaderboard-username {
         font-size: 0.85rem;
         color: var(--text-muted);
       }
+
       .leaderboard-score {
         font-weight: var(--heading-font-weight);
         color: var(--accent-color);
@@ -271,6 +303,7 @@
         gap: 20px;
         grid-template-columns: repeat(2, 1fr);
       }
+
       @media (max-width: 768px) {
         .grid {
           grid-template-columns: 1fr;
@@ -291,7 +324,7 @@
       <header>
         <div class="server-info">
           <img id="server-icon" class="server-icon" src="" alt="Server Icon" />
-          <h1 id="server-name">Loading...</h1>
+          <h1 id="server-name">Loading Server...</h1>
         </div>
         <button id="exportCsvBtn">Export to CSV</button>
       </header>
@@ -308,7 +341,9 @@
           <div class="card-header">
             <h2 class="card-title">Server Overview</h2>
           </div>
-          <div id="server-overview-chart" class="chart-container"></div>
+          <div id="server-overview-chart" class="chart-container">
+            <div class="loading-spinner"></div>
+          </div>
         </div>
       </div>
 
@@ -331,128 +366,219 @@
     </div>
 
     <script>
+      Highcharts.setOptions({
+        chart: {
+          style: {
+            fontFamily: "Poppins, sans-serif",
+          },
+        },
+        colors: [
+          "#5865F2",
+          "#F25D94",
+          "#FA8231",
+          "#17C671",
+          "#663399",
+          "#FFB720",
+        ],
+        title: {
+          style: {
+            fontWeight: "600",
+            fontSize: "1.1rem",
+          },
+        },
+        subtitle: {
+          style: {
+            fontWeight: "400",
+            fontSize: "0.9rem",
+          },
+        },
+        xAxis: {
+          lineColor: "#cccccc",
+          tickColor: "#cccccc",
+          labels: {
+            style: {
+              fontSize: "12px",
+            },
+          },
+        },
+        yAxis: {
+          lineColor: "#cccccc",
+          tickColor: "#cccccc",
+          labels: {
+            style: {
+              fontSize: "12px",
+            },
+          },
+        },
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeTabs();
+        fetchDataInBackground();
+      });
+
+      var serverData;
+      var charts = {};
+
+      function fetchDataInBackground() {
+        var apiUrl = getApiUrl();
+        fetch(apiUrl, {
+          cache: "no-store",
+        })
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error("HTTP error! Status: " + response.status);
+            }
+            return response.json();
+          })
+          .then(function (data) {
+            serverData = data;
+            updateServerInfo();
+            createServerOverviewChart(); 
+            createChannelCharts();
+            createUserCharts();
+            createLeaderboard();
+          })
+          .catch(function (error) {
+            console.error("Data fetch error:", error);
+          });
+      }
+
       function getApiUrl() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const serverId = urlParams.get("server");
+        var urlParams = new URLSearchParams(window.location.search);
+        var serverId = urlParams.get("server");
         if (serverId) {
-          return `https://api.communitrics.com/counting/s/${serverId}/all`;
+          return "https://api.communitrics.com/counting/s/" + serverId + "/all";
         }
         return "https://api.communitrics.com/counting/s/1150096734576451614/all";
       }
 
-      const apiUrl = getApiUrl();
-      let serverData;
-      let charts = {};
-
-      async function fetchData() {
-        try {
-          const response = await fetch(apiUrl);
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return await response.json();
-        } catch (error) {
-          console.error("Data fetch error:", error);
-          return null;
-        }
-      }
-
-      function initializeDashboard() {
-        fetchData().then((data) => {
-          if (data) {
-            serverData = data;
-            updateServerInfo(() => {
-              createServerOverviewChart();
-              createChannelCharts();
-              createUserCharts();
-              createLeaderboard();
-              initializeTabs();
-            });
-          }
-        });
-      }
-
-      document.addEventListener("DOMContentLoaded", initializeDashboard);
-
-      function extractColorFromImage(imgSrc, callback) {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.src = imgSrc;
-        img.onload = () => {
-          const colorThief = new ColorThief();
-          const palette = colorThief.getPalette(img, 8);
-          const vibrant = getMostVibrantColor(palette);
-          const color = `rgba(${vibrant.join(",")}, 0.6)`;
-          callback(color);
-        };
-      }
-
-      function getVibrancy(rgb) {
-        const [r, g, b] = rgb;
-        const max = Math.max(r, g, b);
-        const min = Math.min(r, g, b);
-        const saturation = max - min;
-        const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
-        return saturation * brightness;
-      }
-
-      function getMostVibrantColor(palette) {
-        return palette.reduce((mostVibrant, color) =>
-          getVibrancy(color) > getVibrancy(mostVibrant) ? color : mostVibrant
-        );
-      }
-
-      function updateServerInfo(callback) {
-        const serverIcon = document.getElementById("server-icon");
-        const serverName = document.getElementById("server-name");
-        serverName.textContent = serverData.server_name;
-        serverIcon.src = serverData.server_image;
-
-        serverIcon.onload = () => {
-          extractColorFromImage(serverData.server_image, (color) => {
-            document.documentElement.style.setProperty("--accent-color", color);
-            callback();
-          });
-        };
-      }
-
       function initializeTabs() {
-        const tabs = document.querySelectorAll(".tab");
-        const tabContents = document.querySelectorAll(".tab-content");
+        var tabs = document.querySelectorAll(".tab");
+        var tabContents = document.querySelectorAll(".tab-content");
 
-        tabs.forEach((tab) => {
-          tab.addEventListener("click", () => {
-            const tabId = tab.getAttribute("data-tab");
-            tabs.forEach((t) => t.classList.remove("active"));
-            tabContents.forEach((content) =>
-              content.classList.remove("active")
-            );
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            var tabId = tab.getAttribute("data-tab");
+            tabs.forEach(function (t) {
+              t.classList.remove("active");
+            });
+            tabContents.forEach(function (content) {
+              content.classList.remove("active");
+            });
             tab.classList.add("active");
             document.getElementById(tabId).classList.add("active");
           });
         });
       }
 
+      function updateServerInfo() {
+        var serverIcon = document.getElementById("server-icon");
+        var serverName = document.getElementById("server-name");
+        serverName.textContent = serverData.server_name;
+        serverIcon.src = serverData.server_image;
+
+        extractColorFromImage(serverData.server_image, function (color) {
+          document.documentElement.style.setProperty("--accent-color", color);
+          document.documentElement.style.setProperty("--accent-hover", color);
+
+          if (charts["server-overview"]) {
+            charts["server-overview"].update({
+              series: [
+                {
+                  color: color,
+                  fillColor: getGradientFill(color),
+                },
+              ],
+            });
+          }
+
+          if (serverData && serverData.channels) {
+            serverData.channels.forEach(function (channel) {
+              if (charts["channel-" + channel.channel_id]) {
+                charts["channel-" + channel.channel_id].update({
+                  series: [
+                    {
+                      color: color,
+                      fillColor: getGradientFill(color),
+                    },
+                  ],
+                });
+              }
+            });
+          }
+        });
+      }
+
+      function extractColorFromImage(imgSrc, callback) {
+        var img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = imgSrc;
+        img.onload = function () {
+          var colorThief = new ColorThief();
+          var palette = colorThief.getPalette(img, 8);
+          var vibrant = getMostVibrantColor(palette);
+          var color = "rgba(" + vibrant.join(",") + ", 0.6)";
+          callback(color);
+        };
+      }
+
+      function getVibrancy(rgb) {
+        var r = rgb[0];
+        var g = rgb[1];
+        var b = rgb[2];
+        var max = Math.max(r, g, b);
+        var min = Math.min(r, g, b);
+        var saturation = max - min;
+        var brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+        return saturation * brightness;
+      }
+
+      function getMostVibrantColor(palette) {
+        return palette.reduce(function (mostVibrant, color) {
+          return getVibrancy(color) > getVibrancy(mostVibrant)
+            ? color
+            : mostVibrant;
+        });
+      }
+
+      function getGradientFill(baseColor) {
+        return {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, baseColor],
+            [1, Highcharts.color(baseColor).setOpacity(0.35).get()],
+          ],
+        };
+      }
+
       function createServerOverviewChart() {
-        const container = document.getElementById("server-overview-chart");
+        if (!serverData) {
+          return;
+        }
+        var container = document.getElementById("server-overview-chart");
+        container.innerHTML = "";
         container.style.height = "500px";
 
-        const resetButton = document.createElement("button");
+        var resetButton = document.createElement("button");
         resetButton.textContent = "Reset Zoom";
         resetButton.className = "reset-zoom-btn";
-        const cardHeader = document.querySelector("#overview .card-header");
+        var cardHeader = document.querySelector("#overview .card-header");
         cardHeader.appendChild(resetButton);
 
-        const allCounts = serverData.channels.flatMap((channel) =>
-          channel.counts.map((count) => ({
-            ...count,
-            channelName: channel.channel_name,
-          }))
-        );
-        allCounts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
-        let cumulativeCount = 0;
-        const cumulativeData = allCounts.map((count) => {
+        var allCounts = serverData.channels.flatMap(function (channel) {
+          return channel.counts.map(function (count) {
+            return {
+              timestamp: count.timestamp,
+              channelName: channel.channel_name,
+            };
+          });
+        });
+        allCounts.sort(function (a, b) {
+          return new Date(a.timestamp) - new Date(b.timestamp);
+        });
+        var cumulativeCount = 0;
+        var cumulativeData = allCounts.map(function (count) {
           cumulativeCount += 1;
           return [
             new Date(count.timestamp).getTime(),
@@ -461,14 +587,14 @@
           ];
         });
 
-        const totalPoints = cumulativeData.length;
-        let skipRate = 1;
+        var totalPoints = cumulativeData.length;
+        var skipRate = 1;
         if (totalPoints > 2000) {
           skipRate = Math.ceil(totalPoints / 2000);
         }
-        const sampledData = cumulativeData.filter(
-          (_, index) => index % skipRate === 0
-        );
+        var sampledData = cumulativeData.filter(function (_, index) {
+          return index % skipRate === 0;
+        });
 
         charts["server-overview"] = Highcharts.chart(container, {
           chart: {
@@ -477,9 +603,6 @@
             backgroundColor: "transparent",
             height: 500,
             animation: true,
-            resetZoomButton: {
-              theme: { display: "none" },
-            },
             style: {
               fontFamily: "Poppins, sans-serif",
             },
@@ -494,7 +617,7 @@
           title: { text: null },
           xAxis: {
             type: "datetime",
-            tickAmount: 6,
+            tickAmount: 4,
             labels: {
               style: {
                 color: getComputedStyle(
@@ -503,9 +626,9 @@
                 fontSize: "12px",
               },
               formatter: function () {
-                const date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                const time = Highcharts.dateFormat("%H:%M:%S", this.value);
-                return `${date}\n${time}`;
+                var date = Highcharts.dateFormat("%b %d, %Y", this.value);
+                var time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                return date + "\n" + time;
               },
             },
             lineColor: getComputedStyle(
@@ -517,6 +640,7 @@
           },
           yAxis: {
             title: { text: null },
+            tickAmount: 5,
             labels: {
               style: {
                 color: getComputedStyle(
@@ -551,29 +675,33 @@
           series: [
             {
               name: "Total Counts",
-              data: sampledData.map((d) => ({
-                x: d[0],
-                y: d[1],
-                channel: d[2],
-              })),
+              data: sampledData.map(function (d) {
+                return {
+                  x: d[0],
+                  y: d[1],
+                  channel: d[2],
+                };
+              }),
               color: getComputedStyle(
                 document.documentElement
               ).getPropertyValue("--accent-color"),
-              fillColor: getComputedStyle(
-                document.documentElement
-              ).getPropertyValue("--accent-color"),
+              fillColor: getGradientFill(
+                getComputedStyle(document.documentElement).getPropertyValue(
+                  "--accent-color"
+                )
+              ),
               marker: { enabled: false },
+              lineWidth: 3,
             },
           ],
           plotOptions: {
             area: {
-              lineWidth: 2,
-              fillOpacity: 0.5,
+              fillOpacity: 0.4,
             },
             series: {
               states: {
                 hover: {
-                  lineWidth: 2,
+                  lineWidth: 3,
                 },
               },
             },
@@ -583,63 +711,67 @@
           legend: { enabled: false },
         });
 
-        resetButton.addEventListener("click", () => {
+        resetButton.addEventListener("click", function () {
           charts["server-overview"].zoomOut();
           resetButton.style.display = "none";
         });
       }
 
       function createChannelCharts() {
-        const channelChartsGrid = document.getElementById(
-          "channel-charts-grid"
-        );
-
+        if (!serverData) return;
+        var channelChartsGrid = document.getElementById("channel-charts-grid");
         if (serverData.channels.length > 1) {
           channelChartsGrid.classList.add("grid");
         } else {
           channelChartsGrid.classList.remove("grid");
         }
-
-        serverData.channels.forEach((channel) => {
-          const card = document.createElement("div");
+        serverData.channels.forEach(function (channel) {
+          var card = document.createElement("div");
           card.className = "card";
-          card.innerHTML = `
-            <div class="card-header">
-              <h2 class="card-title">${channel.channel_name}</h2>
-              <button id="resetZoomChannel-${channel.channel_id}" class="reset-zoom-btn">Reset Zoom</button>
-            </div>
-            <div id="channel-${channel.channel_id}-chart" class="chart-container"></div>
-          `;
+          card.innerHTML =
+            '<div class="card-header">' +
+            '<h2 class="card-title">' +
+            channel.channel_name +
+            "</h2>" +
+            '<button id="resetZoomChannel-' +
+            channel.channel_id +
+            '" class="reset-zoom-btn">Reset Zoom</button>' +
+            "</div>" +
+            '<div id="channel-' +
+            channel.channel_id +
+            '-chart" class="chart-container"></div>';
           channelChartsGrid.appendChild(card);
 
-          const container = document.getElementById(
-            `channel-${channel.channel_id}-chart`
+          var container = document.getElementById(
+            "channel-" + channel.channel_id + "-chart"
           );
           container.style.height =
             serverData.channels.length > 1 ? "320px" : "500px";
-          const resetButton = document.getElementById(
-            `resetZoomChannel-${channel.channel_id}`
-          );
 
-          const accentColor = getComputedStyle(
+          var resetButton = document.getElementById(
+            "resetZoomChannel-" + channel.channel_id
+          );
+          var accentColor = getComputedStyle(
             document.documentElement
           ).getPropertyValue("--accent-color");
-          const channelCounts = channel.counts.map((count) => [
-            new Date(count.timestamp).getTime(),
-            count.count_number,
-          ]);
-          channelCounts.sort((a, b) => a[0] - b[0]);
 
-          const totalPoints = channelCounts.length;
-          let skipRate = 1;
+          var channelCounts = channel.counts.map(function (count) {
+            return [new Date(count.timestamp).getTime(), count.count_number];
+          });
+          channelCounts.sort(function (a, b) {
+            return a[0] - b[0];
+          });
+
+          var totalPoints = channelCounts.length;
+          var skipRate = 1;
           if (totalPoints > 2000) {
             skipRate = Math.ceil(totalPoints / 2000);
           }
-          const sampledData = channelCounts.filter(
-            (_, index) => index % skipRate === 0
-          );
+          var sampledData = channelCounts.filter(function (_, index) {
+            return index % skipRate === 0;
+          });
 
-          charts[`channel-${channel.channel_id}`] = Highcharts.chart(
+          charts["channel-" + channel.channel_id] = Highcharts.chart(
             container,
             {
               chart: {
@@ -660,7 +792,7 @@
               title: { text: null },
               xAxis: {
                 type: "datetime",
-                tickAmount: 6,
+                tickAmount: 4,
                 labels: {
                   style: {
                     color: getComputedStyle(
@@ -669,9 +801,9 @@
                     fontSize: "12px",
                   },
                   formatter: function () {
-                    const date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                    const time = Highcharts.dateFormat("%H:%M:%S", this.value);
-                    return `${date}\n${time}`;
+                    var date = Highcharts.dateFormat("%b %d, %Y", this.value);
+                    var time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                    return date + "\n" + time;
                   },
                 },
                 lineColor: getComputedStyle(
@@ -683,6 +815,7 @@
               },
               yAxis: {
                 title: { text: null },
+                tickAmount: 5,
                 labels: {
                   style: {
                     color: getComputedStyle(
@@ -718,20 +851,19 @@
                   name: "Count",
                   data: sampledData,
                   color: accentColor,
-                  fillColor: accentColor,
+                  fillColor: getGradientFill(accentColor),
                   marker: { enabled: false },
+                  lineWidth: 3,
                 },
               ],
               plotOptions: {
                 area: {
-                  lineWidth: 2,
-                  lineColor: accentColor,
-                  fillOpacity: 0.5,
+                  fillOpacity: 0.4,
                 },
                 series: {
                   states: {
                     hover: {
-                      lineWidth: 2,
+                      lineWidth: 3,
                     },
                   },
                 },
@@ -742,27 +874,36 @@
             }
           );
 
-          resetButton.addEventListener("click", () => {
-            charts[`channel-${channel.channel_id}`].zoomOut();
+          resetButton.addEventListener("click", function () {
+            charts["channel-" + channel.channel_id].zoomOut();
             resetButton.style.display = "none";
           });
         });
       }
 
       function createUserCharts() {
-        const userChartsGrid = document.getElementById("user-charts-grid");
-        const userCounts = {};
-        const userTotals = {};
+        if (!serverData) return;
+        var userChartsGrid = document.getElementById("user-charts-grid");
+        var userCounts = {};
+        var userTotals = {};
 
-        const allCounts = serverData.channels.flatMap((channel) =>
-          channel.counts.map((count) => ({
-            ...count,
-            channelName: channel.channel_name,
-          }))
-        );
-        allCounts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+        var allCounts = serverData.channels.flatMap(function (channel) {
+          return channel.counts.map(function (count) {
+            return {
+              channelName: channel.channel_name,
+              user_id: count.user_id,
+              username: count.username,
+              display_name: count.display_name,
+              profile_pic: count.profile_pic,
+              timestamp: count.timestamp,
+            };
+          });
+        });
+        allCounts.sort(function (a, b) {
+          return new Date(a.timestamp) - new Date(b.timestamp);
+        });
 
-        allCounts.forEach((count) => {
+        allCounts.forEach(function (count) {
           if (!userCounts[count.user_id]) {
             userCounts[count.user_id] = {
               id: count.user_id,
@@ -776,16 +917,15 @@
             x: new Date(count.timestamp).getTime(),
             y: userCounts[count.user_id].counts.length + 1,
           });
-
           if (!userTotals[count.user_id]) {
             userTotals[count.user_id] = { id: count.user_id, total: 0 };
           }
           userTotals[count.user_id].total += 1;
         });
 
-        const sortedUsers = Object.values(userTotals).sort(
-          (a, b) => b.total - a.total
-        );
+        var sortedUsers = Object.values(userTotals).sort(function (a, b) {
+          return b.total - a.total;
+        });
 
         if (Object.keys(userCounts).length > 1) {
           userChartsGrid.classList.add("grid");
@@ -793,66 +933,80 @@
           userChartsGrid.classList.remove("grid");
         }
 
-        sortedUsers.forEach((userTotal, index) => {
-          const user = userCounts[userTotal.id];
-          const rank = index + 1;
-
-          const card = document.createElement("div");
+        sortedUsers.forEach(function (userTotal, index) {
+          var user = userCounts[userTotal.id];
+          var rank = index + 1;
+          var card = document.createElement("div");
           card.className = "card";
-          card.innerHTML = `
-            <div class="card-header">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <img
-                  src="${user.profile_pic}"
-                  alt="${user.display_name}'s Profile Picture"
-                  style="
-                    width: 46px;
-                    height: 46px;
-                    border-radius: 12px;
-                    object-fit: cover;
-                    box-shadow: var(--card-shadow);
-                  "
-                />
-                <div>
-                  <h2 class="card-title" style="margin: 0;">${user.display_name} (@${user.username})</h2>
-                  <small style="color: var(--text-muted);">Leaderboard Rank: #${rank}</small>
-                </div>
-              </div>
-              <button id="resetZoomUser-${user.id}" class="reset-zoom-btn">Reset Zoom</button>
-            </div>
-            <div id="user-${user.id}-chart" class="chart-container"></div>
-          `;
+          card.innerHTML =
+            '<div class="card-header">' +
+            '<div style="display: flex; align-items: center; gap: 12px;">' +
+            "<img" +
+            ' src="' +
+            user.profile_pic +
+            '"' +
+            ' alt="' +
+            user.display_name +
+            "'s Profile Picture\"" +
+            ' style="' +
+            "width: 46px;" +
+            "height: 46px;" +
+            "border-radius: 10px;" +
+            "object-fit: cover;" +
+            "box-shadow: var(--card-shadow);" +
+            '"' +
+            "/>" +
+            "<div>" +
+            '<h2 class="card-title" style="margin: 0;">' +
+            user.display_name +
+            " (@" +
+            user.username +
+            ")" +
+            "</h2>" +
+            '<small style="color: var(--text-muted);">' +
+            "Leaderboard Rank: #" +
+            rank +
+            "</small>" +
+            "</div>" +
+            "</div>" +
+            '<button id="resetZoomUser-' +
+            user.id +
+            '" class="reset-zoom-btn">Reset Zoom</button>' +
+            "</div>" +
+            '<div id="user-' +
+            user.id +
+            '-chart" class="chart-container"></div>';
+
           userChartsGrid.appendChild(card);
 
-          const container = document.getElementById(`user-${user.id}-chart`);
+          var container = document.getElementById("user-" + user.id + "-chart");
           container.style.height =
             Object.keys(userCounts).length > 1 ? "320px" : "500px";
-          const resetButton = document.getElementById(
-            `resetZoomUser-${user.id}`
-          );
 
-          const profilePic = new Image();
+          var resetButton = document.getElementById("resetZoomUser-" + user.id);
+          var profilePic = new Image();
           profilePic.crossOrigin = "Anonymous";
           profilePic.src = user.profile_pic;
-          profilePic.onload = () => {
-            const colorThief = new ColorThief();
-            const palette = colorThief.getPalette(profilePic, 8);
-            const vibrant = getMostVibrantColor(palette);
-            const color = `rgba(${vibrant.join(",")}, 0.65)`;
+
+          profilePic.onload = function () {
+            var colorThief = new ColorThief();
+            var palette = colorThief.getPalette(profilePic, 8);
+            var vibrant = getMostVibrantColor(palette);
+            var color = "rgba(" + vibrant.join(",") + ", 0.65)";
 
             resetButton.style.backgroundColor = color;
 
-            const userData = user.counts;
-            const totalPoints = userData.length;
-            let skipRate = 1;
+            var userData = user.counts;
+            var totalPoints = userData.length;
+            var skipRate = 1;
             if (totalPoints > 2000) {
               skipRate = Math.ceil(totalPoints / 2000);
             }
-            const sampledData = userData.filter(
-              (_, idx) => idx % skipRate === 0
-            );
+            var sampledData = userData.filter(function (_, idx) {
+              return idx % skipRate === 0;
+            });
 
-            charts[`user-${user.id}`] = Highcharts.chart(container, {
+            charts["user-" + user.id] = Highcharts.chart(container, {
               chart: {
                 type: "area",
                 zoomType: "x",
@@ -873,7 +1027,7 @@
               title: { text: null },
               xAxis: {
                 type: "datetime",
-                tickAmount: 6,
+                tickAmount: 4,
                 labels: {
                   style: {
                     color: getComputedStyle(
@@ -882,9 +1036,9 @@
                     fontSize: "12px",
                   },
                   formatter: function () {
-                    const date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                    const time = Highcharts.dateFormat("%H:%M:%S", this.value);
-                    return `${date}\n${time}`;
+                    var date = Highcharts.dateFormat("%b %d, %Y", this.value);
+                    var time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                    return date + "\n" + time;
                   },
                 },
                 lineColor: getComputedStyle(
@@ -896,6 +1050,7 @@
               },
               yAxis: {
                 title: { text: null },
+                tickAmount: 5,
                 labels: {
                   style: {
                     color: getComputedStyle(
@@ -931,20 +1086,25 @@
                   name: "Total Counts",
                   data: sampledData,
                   color: color,
-                  fillColor: color,
+                  fillColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                      [0, color],
+                      [1, Highcharts.color(color).setOpacity(0.35).get()],
+                    ],
+                  },
                   marker: { enabled: false },
+                  lineWidth: 3,
                 },
               ],
               plotOptions: {
                 area: {
-                  lineWidth: 2,
-                  lineColor: color,
-                  fillOpacity: 0.5,
+                  fillOpacity: 0.4,
                 },
                 series: {
                   states: {
                     hover: {
-                      lineWidth: 2,
+                      lineWidth: 3,
                     },
                   },
                 },
@@ -954,8 +1114,8 @@
               legend: { enabled: false },
             });
 
-            resetButton.addEventListener("click", () => {
-              charts[`user-${user.id}`].zoomOut();
+            resetButton.addEventListener("click", function () {
+              charts["user-" + user.id].zoomOut();
               resetButton.style.display = "none";
             });
           };
@@ -963,11 +1123,14 @@
       }
 
       function createLeaderboard() {
-        const leaderboard = document.getElementById("leaderboard-list");
-        const userTotals = {};
+        if (!serverData) {
+          return;
+        }
+        var leaderboard = document.getElementById("leaderboard-list");
+        var userTotals = {};
 
-        serverData.channels.forEach((channel) => {
-          channel.counts.forEach((count) => {
+        serverData.channels.forEach(function (channel) {
+          channel.counts.forEach(function (count) {
             if (!userTotals[count.user_id]) {
               userTotals[count.user_id] = {
                 username: count.username,
@@ -980,100 +1143,141 @@
           });
         });
 
-        const sortedUsers = Object.values(userTotals).sort(
-          (a, b) => b.total - a.total
-        );
-
-        sortedUsers.forEach((user, index) => {
-          const li = document.createElement("li");
+        var sortedUsers = Object.values(userTotals).sort(function (a, b) {
+          return b.total - a.total;
+        });
+        sortedUsers.forEach(function (user, index) {
+          var li = document.createElement("li");
           li.className = "leaderboard-item";
-          li.innerHTML = `
-            <span class="leaderboard-rank">#${index + 1}</span>
-            <img
-              class="leaderboard-avatar"
-              src="${user.profile_pic}"
-              alt="${user.display_name}"
-            />
-            <div class="leaderboard-info">
-              <span class="leaderboard-name">${user.display_name}</span>
-              <span class="leaderboard-username">@${user.username}</span>
-            </div>
-            <span class="leaderboard-score">${user.total.toLocaleString()}</span>
-          `;
+          li.innerHTML =
+            '<span class="leaderboard-rank">#' +
+            (index + 1) +
+            "</span>" +
+            "<img" +
+            ' class="leaderboard-avatar"' +
+            ' src="' +
+            user.profile_pic +
+            '"' +
+            ' alt="' +
+            user.display_name +
+            '"' +
+            "/>" +
+            '<div class="leaderboard-info">' +
+            '<span class="leaderboard-name">' +
+            user.display_name +
+            "</span>" +
+            ' <span class="leaderboard-username">@' +
+            user.username +
+            "</span>" +
+            "</div>" +
+            '<span class="leaderboard-score">' +
+            user.total.toLocaleString() +
+            "</span>";
           leaderboard.appendChild(li);
         });
       }
 
       document
         .getElementById("exportCsvBtn")
-        .addEventListener("click", async () => {
-          const zip = new JSZip();
-
+        .addEventListener("click", function () {
+          var zip = new JSZip();
           if (!serverData) {
-            serverData = await fetchData();
+            fetchData().then(function (data) {
+              if (data) {
+                serverData = data;
+                doExport(zip);
+              }
+            });
+          } else {
+            doExport(zip);
           }
-
-          const mainDataFolder = zip.folder("main_data");
-          const serverDataCsv = generateServerDataCsv(serverData);
-          mainDataFolder.file("server_data.csv", serverDataCsv);
-
-          serverData.channels.forEach((channel) => {
-            const channelCsv = generateChannelDataCsv(channel);
-            mainDataFolder.file(
-              `channel_${channel.channel_name}.csv`,
-              channelCsv
-            );
-          });
-
-          const leaderboardCsv = generateLeaderboardCsv(serverData);
-          mainDataFolder.file("leaderboard.csv", leaderboardCsv);
-
-          const userDataFolder = zip.folder("user_data");
-          const userCounts = aggregateUserCounts(serverData);
-          userCounts.forEach((user) => {
-            const userCsv = generateUserDataCsv(user);
-            userDataFolder.file(`${user.username}.csv`, userCsv);
-          });
-
-          zip.generateAsync({ type: "blob" }).then((content) => {
-            saveAs(content, "data_export.zip");
-          });
         });
 
-      function generateServerDataCsv(data) {
-        const allCounts = data.channels.flatMap((channel) =>
-          channel.counts.map((count) => ({
-            timestamp: count.timestamp,
-            channelName: channel.channel_name,
-          }))
-        );
-        allCounts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+      function fetchData() {
+        var apiUrl = getApiUrl();
+        return fetch(apiUrl)
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error("HTTP error! Status: " + response.status);
+            }
+            return response.json();
+          })
+          .catch(function (error) {
+            console.error("Data fetch error:", error);
+            return null;
+          });
+      }
 
-        let cumulativeCount = 0;
-        const cumulativeData = allCounts.map((count) => {
+      function doExport(zip) {
+        var mainDataFolder = zip.folder("main_data");
+        var serverDataCsv = generateServerDataCsv(serverData);
+        mainDataFolder.file("server_data.csv", serverDataCsv);
+
+        serverData.channels.forEach(function (channel) {
+          var channelCsv = generateChannelDataCsv(channel);
+          mainDataFolder.file(
+            "channel_" + channel.channel_name + ".csv",
+            channelCsv
+          );
+        });
+
+        var leaderboardCsv = generateLeaderboardCsv(serverData);
+        mainDataFolder.file("leaderboard.csv", leaderboardCsv);
+
+        var userDataFolder = zip.folder("user_data");
+        var userCounts = aggregateUserCounts(serverData);
+        userCounts.forEach(function (u) {
+          var userCsv = generateUserDataCsv(u);
+          userDataFolder.file(u.username + ".csv", userCsv);
+        });
+
+        zip.generateAsync({ type: "blob" }).then(function (content) {
+          saveAs(content, "data_export.zip");
+        });
+      }
+
+      function generateServerDataCsv(data) {
+        var allCounts = data.channels.flatMap(function (channel) {
+          return channel.counts.map(function (count) {
+            return {
+              timestamp: count.timestamp,
+              channelName: channel.channel_name,
+            };
+          });
+        });
+        allCounts.sort(function (a, b) {
+          return new Date(a.timestamp) - new Date(b.timestamp);
+        });
+        var cumulativeCount = 0;
+        var cumulativeData = allCounts.map(function (count) {
           cumulativeCount += 1;
           return [count.timestamp, cumulativeCount];
         });
-
-        const csvRows = [["Timestamp", "Total Count"], ...cumulativeData];
-        return csvRows.map((row) => row.join(",")).join("\n");
+        var csvRows = [["Timestamp", "Total Count"]].concat(cumulativeData);
+        return csvRows
+          .map(function (row) {
+            return row.join(",");
+          })
+          .join("\n");
       }
 
       function generateChannelDataCsv(channel) {
-        const csvRows = [
-          ["Timestamp", "Count"],
-          ...channel.counts.map((count) => [
-            count.timestamp,
-            count.count_number,
-          ]),
-        ];
-        return csvRows.map((row) => row.join(",")).join("\n");
+        var csvRows = [["Timestamp", "Count"]].concat(
+          channel.counts.map(function (count) {
+            return [count.timestamp, count.count_number];
+          })
+        );
+        return csvRows
+          .map(function (row) {
+            return row.join(",");
+          })
+          .join("\n");
       }
 
       function generateLeaderboardCsv(data) {
-        const userTotals = {};
-        data.channels.forEach((channel) => {
-          channel.counts.forEach((count) => {
+        var userTotals = {};
+        data.channels.forEach(function (channel) {
+          channel.counts.forEach(function (count) {
             if (!userTotals[count.user_id]) {
               userTotals[count.user_id] = {
                 username: count.username,
@@ -1085,25 +1289,29 @@
             userTotals[count.user_id].total += 1;
           });
         });
-        const sortedUsers = Object.values(userTotals).sort(
-          (a, b) => b.total - a.total
-        );
-        const csvRows = [
-          ["Rank", "Username", "Display Name", "Total Counts"],
-          ...sortedUsers.map((user, index) => [
+        var sortedUsers = Object.values(userTotals).sort(function (a, b) {
+          return b.total - a.total;
+        });
+        var csvRows = [["Rank", "Username", "Display Name", "Total Counts"]];
+        sortedUsers.forEach(function (user, index) {
+          csvRows.push([
             index + 1,
             user.username,
             user.display_name,
             user.total,
-          ]),
-        ];
-        return csvRows.map((row) => row.join(",")).join("\n");
+          ]);
+        });
+        return csvRows
+          .map(function (row) {
+            return row.join(",");
+          })
+          .join("\n");
       }
 
       function aggregateUserCounts(data) {
-        const userCounts = {};
-        data.channels.forEach((channel) => {
-          channel.counts.forEach((count) => {
+        var userCounts = {};
+        data.channels.forEach(function (channel) {
+          channel.counts.forEach(function (count) {
             if (!userCounts[count.user_id]) {
               userCounts[count.user_id] = {
                 username: count.username,
@@ -1117,11 +1325,17 @@
       }
 
       function generateUserDataCsv(user) {
-        const csvRows = [
-          ["Timestamp", "Count"],
-          ...user.counts.map((count) => [count.timestamp, count.count_number]),
-        ];
-        return csvRows.map((row) => row.join(",")).join("\n");
+        var csvRows = [["Timestamp", "Count"]];
+        csvRows = csvRows.concat(
+          user.counts.map(function (count) {
+            return [count.timestamp, count.count_number];
+          })
+        );
+        return csvRows
+          .map(function (row) {
+            return row.join(",");
+          })
+          .join("\n");
       }
     </script>
   </body>
