@@ -9,7 +9,11 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href="./image.png" type="image/png" />
+    <link
+      rel="icon"
+      href="https://api.communitrics.com/youtube/profile?channel=@communitrics"
+      type="image/png"
+    />
     <script src="https://code.highcharts.com/12.0.2/highcharts.js"></script>
     <script src="https://code.highcharts.com/12.0.2/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/12.0.2/modules/export-data.js"></script>
@@ -434,7 +438,7 @@
           .then(function (data) {
             serverData = data;
             updateServerInfo();
-            createServerOverviewChart(); 
+            createServerOverviewChart();
             createChannelCharts();
             createUserCharts();
             createLeaderboard();
