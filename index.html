@@ -625,7 +625,7 @@
               },
               formatter: function () {
                 var date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                var time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                var time = Highcharts.dateFormat("%H:%M", this.value);
                 return date + "\n" + time;
               },
             },
@@ -661,7 +661,7 @@
             formatter: function () {
               return (
                 "<b>Date:</b> " +
-                Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
+                Highcharts.dateFormat("%b %d, %Y, %H:%M", this.x) +
                 "<br/><b>Total counts:</b> " +
                 this.y.toLocaleString()
               );
@@ -800,7 +800,7 @@
                   },
                   formatter: function () {
                     var date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                    var time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                    var time = Highcharts.dateFormat("%H:%M", this.value);
                     return date + "\n" + time;
                   },
                 },
@@ -835,7 +835,7 @@
                 formatter: function () {
                   return (
                     "<b>Date:</b> " +
-                    Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
+                    Highcharts.dateFormat("%b %d, %Y, %H:%M", this.x) +
                     "<br/><b>Count:</b> " +
                     this.y.toLocaleString()
                   );
@@ -1035,7 +1035,7 @@
                   },
                   formatter: function () {
                     var date = Highcharts.dateFormat("%b %d, %Y", this.value);
-                    var time = Highcharts.dateFormat("%H:%M:%S", this.value);
+                    var time = Highcharts.dateFormat("%H:%M", this.value);
                     return date + "\n" + time;
                   },
                 },
@@ -1070,7 +1070,7 @@
                 formatter: function () {
                   return (
                     "<b>Date:</b> " +
-                    Highcharts.dateFormat("%b %d, %Y, %H:%M:%S", this.x) +
+                    Highcharts.dateFormat("%b %d, %Y, %H:%M", this.x) +
                     "<br/><b>Total counts:</b> " +
                     this.y.toLocaleString()
                   );
