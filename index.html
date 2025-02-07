@@ -28,8 +28,7 @@
       :root {
         --accent-color: #5865f2;
         --accent-hover: #404ddb;
-        --body-gradient-start: #f9f9fb;
-        --body-gradient-end: #ffffff;
+        --background-color: #f9f9fb;
         --card-bg: #ffffff;
         --text-color: #1a1a1a;
         --text-muted: #6b7280;
@@ -43,8 +42,7 @@
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --body-gradient-start: #1f1f1f;
-          --body-gradient-end: #2b2b2b;
+          --background-color: #1f1f1f;
           --card-bg: #2b2b2b;
           --text-color: #e5e5e5;
           --text-muted: #a3a3a3;
@@ -65,11 +63,7 @@
         font-family: "Poppins", sans-serif;
         color: var(--text-color);
         line-height: 1.5;
-        background: linear-gradient(
-          120deg,
-          var(--body-gradient-start) 0%,
-          var(--body-gradient-end) 100%
-        );
+        background-color: var(--background-color);
         min-height: 100vh;
       }
 
