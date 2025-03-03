@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Communitrics Counting</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="https://api.communitrics.com/youtube/profile?channel=communitrics"
+      type="image/png"
+    />
+
+    <style>
+      :root {
+        --accent-color: #ff5252;
+        --accent-hover: #ff5252;
+        --background-color: #f9f9fb;
+        --card-bg: #ffffff;
+        --text-color: #1a1a1a;
+        --text-muted: #6b7280;
+        --border-color: #e4e4e4;
+        --card-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+        --card-radius: 10px;
+        --heading-font-weight: 600;
+        --body-font-weight: 400;
+        --transition-speed: 0.3s;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background-color: #1f1f1f;
+          --card-bg: #2b2b2b;
+          --text-color: #e5e5e5;
+          --text-muted: #a3a3a3;
+          --border-color: #3a3a3a;
+          --card-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+        }
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        color: var(--text-color);
+        line-height: 1.5;
+        background-color: var(--background-color);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .container {
+        width: 95%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border-radius: var(--card-radius);
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: var(--heading-font-weight);
+        color: var(--accent-color);
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin-bottom: 25px;
+      }
+
+      a {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: var(--heading-font-weight);
+        transition: color var(--transition-speed);
+      }
+
+      a:hover {
+        color: var(--accent-hover);
+      }
+
+      .server-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        box-shadow: var(--card-shadow);
+        object-fit: cover;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="card">
+        <img
+          class="server-icon"
+          src="https://api.communitrics.com/youtube/profile?channel=communitrics"
+          alt="Communitrics Icon"
+        />
+        <h1>Oops! Server Not Found</h1>
+        <p>
+          It seems we couldn't find the Discord server you're looking for.
+          <br>Double-check the server ID in the URL.
+        </p>
+        <a href="/">Return to home</a>
+      </div>
+    </div>
+  </body>
+</html>
