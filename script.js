@@ -75,7 +75,7 @@ function getApiUrl() {
   if (serverId) {
     return 'https://api.communitrics.com/counting/s/' + serverId + '/all';
   }
-  return 'https://api.communitrics.com/counting/s/1150096734576451614/all';
+  return 'https://api.communitrics.com/counting/s/661261766457819156/all';
 }
 
 function initializeTabs() {
