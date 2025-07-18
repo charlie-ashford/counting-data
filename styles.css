@@ -109,10 +109,6 @@ header {
   transition: transform var(--transition-speed) var(--transition-ease);
 }
 
-.server-icon:hover {
-  transform: scale(1.05);
-}
-
 .server-info h1 {
   font-weight: var(--heading-font-weight);
   font-size: clamp(1.5rem, 4vw, 2.25rem);
@@ -255,15 +251,6 @@ header {
   transition: opacity var(--transition-speed) var(--transition-ease);
 }
 
-.card:hover {
-  box-shadow: var(--card-shadow-hover);
-  border-color: var(--accent-color);
-}
-
-.card:hover::before {
-  opacity: 1;
-}
-
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -371,8 +358,8 @@ header {
 
 .leaderboard-item:hover {
   background: var(--gradient-subtle);
-  margin: 0 -24px;
-  padding: 20px 24px;
+  margin: 0 -20px;
+  padding: 20px 20px;
   border-radius: 8px;
 }
 
@@ -560,6 +547,14 @@ header {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-color);
+}
+
+::selection {
+  background: var(--accent-color) !important;
+}
+
+::-moz-selection {
+  background: var(--accent-color) !important;
 }
 
 .tab:focus,
