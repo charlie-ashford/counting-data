@@ -111,7 +111,7 @@ header {
 
 .server-info h1 {
   font-weight: var(--heading-font-weight);
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-size: 1.8rem;
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -430,6 +430,28 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 }
 
+@media (min-width: 1200px) {
+  .server-info h1 {
+    font-size: 2.25rem;
+  }
+  
+  .card-title {
+    font-size: 1.6rem;
+  }
+  
+  .leaderboard-name {
+    font-size: 1.15rem;
+  }
+  
+  .leaderboard-score {
+    font-size: 1.2rem;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  }
+}
+
 @media (max-width: 1200px) {
   .grid {
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -450,6 +472,10 @@ header {
   .server-info {
     flex-direction: column;
     gap: 12px;
+  }
+
+  .server-info h1 {
+    font-size: 1.6rem;
   }
 
   .server-icon {
@@ -483,6 +509,10 @@ header {
     align-items: flex-start;
   }
 
+  .card-title {
+    font-size: 1.4rem;
+  }
+
   .leaderboard-item {
     gap: 12px;
   }
@@ -512,6 +542,10 @@ header {
     padding: 12px;
   }
 
+  .server-info h1 {
+    font-size: 1.5rem;
+  }
+
   .card {
     padding: 16px;
     margin-bottom: 16px;
@@ -528,6 +562,14 @@ header {
   #exportCsvBtn {
     padding: 12px 20px;
     font-size: 0.9rem;
+  }
+
+  .leaderboard-name {
+    font-size: 0.95rem;
+  }
+
+  .leaderboard-score {
+    font-size: 0.95rem;
   }
 }
 
