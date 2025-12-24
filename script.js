@@ -115,6 +115,18 @@ function getThemeColors() {
   };
 }
 
+function formatDateForAxis(milliseconds) {
+  const dt = luxon.DateTime.fromMillis(milliseconds);
+  const date = dt.toFormat('MMM dd');
+  const time = dt.toFormat('HH:mm');
+  return { date, time };
+}
+
+function formatDateForTooltip(milliseconds, format) {
+  const dt = luxon.DateTime.fromMillis(milliseconds);
+  return dt.toFormat(format);
+}
+
 function getBaseChartOptions(colors, height = 400) {
   return {
     chart: {
@@ -149,9 +161,8 @@ function getBaseChartOptions(colors, height = 400) {
           fontWeight: '500',
         },
         formatter: function () {
-          const date = Highcharts.dateFormat('%b %d', this.value);
-          const time = Highcharts.dateFormat('%H:%M', this.value);
-          return `<span style="color: ${colors.textColor}; font-weight: 600;">${date}</span><br/><span style="color: ${colors.textMuted};">${time}</span>`;
+          const formatted = formatDateForAxis(this.value);
+          return `<span style="color: ${colors.textColor}; font-weight: 600;">${formatted.date}</span><br/><span style="color: ${colors.textMuted};">${formatted.time}</span>`;
         },
         useHTML: true,
       },
@@ -264,17 +275,20 @@ function getGradientFill(baseColor) {
 
 function getServerTooltipFormatter(colors) {
   return function () {
+    const fullDate = formatDateForTooltip(this.x, 'EEEE, MMMM dd, yyyy');
+    const time = formatDateForTooltip(this.x, 'HH:mm:ss');
+
     return `
       <div style="text-align: center; min-width: 200px;">
         <div style="font-size: 14px; font-weight: 600; color: ${
           colors.textColor
         }; margin-bottom: 8px;">
-          ${Highcharts.dateFormat('%A, %B %d, %Y', this.x)}
+          ${fullDate}
         </div>
         <div style="font-size: 12px; color: ${
           colors.textMuted
         }; margin-bottom: 12px;">
-          ${Highcharts.dateFormat('%H:%M:%S', this.x)}
+          ${time}
         </div>
         <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
           <div style="width: 12px; height: 12px; background: ${
@@ -296,6 +310,8 @@ function getServerTooltipFormatter(colors) {
 
 function getUserTooltipFormatter(colors, userName, userColor) {
   return function () {
+    const dateTime = formatDateForTooltip(this.x, "MMMM dd, yyyy 'at' HH:mm");
+
     return `
       <div style="text-align: center; min-width: 200px;">
         <div style="font-size: 14px; font-weight: 600; color: ${
@@ -306,7 +322,7 @@ function getUserTooltipFormatter(colors, userName, userColor) {
         <div style="font-size: 12px; color: ${
           colors.textMuted
         }; margin-bottom: 12px;">
-          ${Highcharts.dateFormat('%B %d, %Y at %H:%M', this.x)}
+          ${dateTime}
         </div>
         <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
           <div style="width: 12px; height: 12px; background: ${userColor}; border-radius: 50%;"></div>
@@ -429,16 +445,6 @@ function getMostVibrantColor(palette) {
   });
 }
 
-function getGradientFill(baseColor) {
-  return {
-    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-    stops: [
-      [0, baseColor],
-      [1, Highcharts.color(baseColor).setOpacity(0.1).get()],
-    ],
-  };
-}
-
 function createServerOverviewChart() {
   if (!serverData) return;
 
@@ -462,14 +468,17 @@ function createServerOverviewChart() {
   });
 
   allCounts.sort(function (a, b) {
-    return new Date(a.timestamp) - new Date(b.timestamp);
+    return (
+      luxon.DateTime.fromISO(a.timestamp).toMillis() -
+      luxon.DateTime.fromISO(b.timestamp).toMillis()
+    );
   });
 
   var cumulativeCount = 0;
   var cumulativeData = allCounts.map(function (count) {
     cumulativeCount += 1;
     return [
-      new Date(count.timestamp).getTime(),
+      luxon.DateTime.fromISO(count.timestamp).toMillis(),
       cumulativeCount,
       count.channelName,
     ];
@@ -496,13 +505,16 @@ function createServerOverviewChart() {
     }),
     tooltip: Object.assign({}, chartOptions.tooltip, {
       formatter: function () {
+        const fullDate = formatDateForTooltip(this.x, 'MMMM dd, yyyy');
+        const time = formatDateForTooltip(this.x, 'HH:mm:ss');
+
         return (
           '<div style="text-align: center;">' +
           '<strong>' +
-          Highcharts.dateFormat('%B %d, %Y', this.x) +
+          fullDate +
           '</strong><br/>' +
           '<span style="font-size: 11px;">' +
-          Highcharts.dateFormat('%H:%M:%S', this.x) +
+          time +
           '</span><br/>' +
           '<span style="color: ' +
           colors.accentColor +
@@ -570,8 +582,12 @@ function createChannelCharts() {
     );
 
     var channelCounts = channel.counts.map(function (count) {
-      return [new Date(count.timestamp).getTime(), count.count_number];
+      return [
+        luxon.DateTime.fromISO(count.timestamp).toMillis(),
+        count.count_number,
+      ];
     });
+
     channelCounts.sort(function (a, b) {
       return a[0] - b[0];
     });
@@ -595,13 +611,16 @@ function createChannelCharts() {
       }),
       tooltip: Object.assign({}, chartOptions.tooltip, {
         formatter: function () {
+          const fullDate = formatDateForTooltip(this.x, 'MMMM dd, yyyy');
+          const time = formatDateForTooltip(this.x, 'HH:mm:ss');
+
           return (
             '<div style="text-align: center;">' +
             '<strong>' +
-            Highcharts.dateFormat('%B %d, %Y', this.x) +
+            fullDate +
             '</strong><br/>' +
             '<span style="font-size: 11px;">' +
-            Highcharts.dateFormat('%H:%M:%S', this.x) +
+            time +
             '</span><br/>' +
             '<span style="color: ' +
             colors.accentColor +
@@ -657,7 +676,10 @@ function createUserCharts() {
   });
 
   allCounts.sort(function (a, b) {
-    return new Date(a.timestamp) - new Date(b.timestamp);
+    return (
+      luxon.DateTime.fromISO(a.timestamp).toMillis() -
+      luxon.DateTime.fromISO(b.timestamp).toMillis()
+    );
   });
 
   allCounts.forEach(function (count) {
@@ -674,7 +696,7 @@ function createUserCharts() {
 
     userTotals[count.user_id].total += 1;
     userCounts[count.user_id].counts.push({
-      x: new Date(count.timestamp).getTime(),
+      x: luxon.DateTime.fromISO(count.timestamp).toMillis(),
       y: userTotals[count.user_id].total,
     });
   });
@@ -758,13 +780,18 @@ function createUserCharts() {
         }),
         tooltip: Object.assign({}, chartOptions.tooltip, {
           formatter: function () {
+            const dateTime = formatDateForTooltip(
+              this.x,
+              "MMMM dd, yyyy 'at' HH:mm"
+            );
+
             return (
               '<div style="text-align: center;">' +
               '<strong>' +
               user.display_name +
               '</strong><br/>' +
               '<span style="font-size: 11px;">' +
-              Highcharts.dateFormat('%B %d, %Y at %H:%M', this.x) +
+              dateTime +
               '</span><br/>' +
               '<span style="color: ' +
               userColor +
@@ -936,14 +963,20 @@ function generateServerDataCsv(data) {
       };
     });
   });
+
   allCounts.sort(function (a, b) {
-    return new Date(a.timestamp) - new Date(b.timestamp);
+    return (
+      luxon.DateTime.fromISO(a.timestamp).toMillis() -
+      luxon.DateTime.fromISO(b.timestamp).toMillis()
+    );
   });
+
   var cumulativeCount = 0;
   var cumulativeData = allCounts.map(function (count) {
     cumulativeCount += 1;
     return [count.timestamp, cumulativeCount];
   });
+
   var csvRows = [['Timestamp', 'Total Count']].concat(cumulativeData);
   return csvRows
     .map(function (row) {
@@ -980,13 +1013,16 @@ function generateLeaderboardCsv(data) {
       userTotals[count.user_id].total += 1;
     });
   });
+
   var sortedUsers = Object.values(userTotals).sort(function (a, b) {
     return b.total - a.total;
   });
+
   var csvRows = [['Rank', 'Username', 'Display Name', 'Total Counts']];
   sortedUsers.forEach(function (user, index) {
     csvRows.push([index + 1, user.username, user.display_name, user.total]);
   });
+
   return csvRows
     .map(function (row) {
       return row.join(',');
